@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using WpfStudyNote.Core.Constants;
 using WpfStudyNote.Core.ModelBases;
 
 namespace WpfStudyNote.Views.Controller.ViewModels
@@ -47,6 +48,9 @@ namespace WpfStudyNote.Views.Controller.ViewModels
                     break;
                 case "Exit":
                     Exit();
+                    break;
+                case "Search":
+                    _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.SearchView);
                     break;
                 default:
                     break;

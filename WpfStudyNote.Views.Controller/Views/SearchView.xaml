@@ -1,0 +1,275 @@
+﻿<UserControl
+    x:Class="WpfStudyNote.Views.Controller.Views.SearchView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:local="clr-namespace:WpfStudyNote.Views.Controller.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <hc:ScrollViewer x:Name="SearchScrollViewer" IsInertiaEnabled="True">
+        <DockPanel LastChildFill="True">
+            <Expander
+                Margin="15,15,15,0"
+                Background="{DynamicResource RegionBrush}"
+                DockPanel.Dock="Top"
+                Style="{DynamicResource ExpanderBaseStyle}">
+                <Expander.Header>
+                    <DockPanel LastChildFill="True">
+                        <Button
+                            Height="40"
+                            BorderThickness="0"
+                            Content="全部"
+                            FontSize="24"
+                            FontWeight="Black"
+                            Style="{DynamicResource ButtonDashed}" />
+                        <Button
+                            Height="40"
+                            BorderThickness="0"
+                            Content="时间排序"
+                            FontSize="24"
+                            Style="{DynamicResource ButtonDashed}" />
+                        <Button
+                            Height="40"
+                            BorderThickness="0"
+                            Content="分类"
+                            FontSize="24"
+                            Style="{DynamicResource ButtonDashed}" />
+                        <Button hc:IconElement.Geometry="{DynamicResource arrowupdown-001}" Style="{DynamicResource ButtonIcon}" />
+                    </DockPanel>
+                </Expander.Header>
+                <DockPanel Background="{DynamicResource RegionBrush}" LastChildFill="True">
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <TextBlock
+                            Margin="25,0"
+                            VerticalAlignment="Center"
+                            DockPanel.Dock="Top"
+                            FontSize="20"
+                            Text="分级:" />
+                        <Button
+                            Height="40"
+                            BorderThickness="0"
+                            Content="基础知识"
+                            FontSize="20"
+                            FontWeight="Black"
+                            Style="{DynamicResource ButtonDashed}" />
+                        <Button
+                            Height="40"
+                            BorderThickness="0"
+                            Content="进阶知识"
+                            FontSize="20"
+                            FontWeight="Light"
+                            Style="{DynamicResource ButtonDashed}" />
+                        <Button
+                            Height="40"
+                            BorderThickness="0"
+                            Content="核心知识"
+                            FontSize="20"
+                            FontWeight="Light"
+                            Style="{DynamicResource ButtonDashed}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="25,0"
+                            VerticalAlignment="Center"
+                            FontSize="20"
+                            Text="时间:" />
+                        <Button
+                            Height="40"
+                            BorderThickness="0"
+                            Content="不限"
+                            FontSize="20"
+                            FontWeight="Black"
+                            Style="{DynamicResource ButtonDashed}" />
+                        <Button
+                            Height="40"
+                            BorderThickness="0"
+                            Content="一天内"
+                            FontSize="20"
+                            FontWeight="Light"
+                            Style="{DynamicResource ButtonDashed}" />
+                        <Button
+                            Height="40"
+                            BorderThickness="0"
+                            Content="一周内"
+                            FontSize="20"
+                            FontWeight="Light"
+                            Style="{DynamicResource ButtonDashed}" />
+                        <Button
+                            Height="40"
+                            BorderThickness="0"
+                            Content="一月内"
+                            FontSize="20"
+                            FontWeight="Light"
+                            Style="{DynamicResource ButtonDashed}" />
+                        <Button
+                            Height="40"
+                            BorderThickness="0"
+                            Content="三月内"
+                            FontSize="20"
+                            FontWeight="Light"
+                            Style="{DynamicResource ButtonDashed}" />
+                        <Button
+                            Height="40"
+                            BorderThickness="0"
+                            Content="一年内"
+                            FontSize="20"
+                            FontWeight="Light"
+                            Style="{DynamicResource ButtonDashed}" />
+                    </StackPanel>
+                </DockPanel>
+            </Expander>
+            <DockPanel
+                Margin="15,0,15,15"
+                DockPanel.Dock="Top"
+                LastChildFill="True">
+                <StackPanel
+                    Background="{DynamicResource RegionBrush}"
+                    DockPanel.Dock="Left"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="25,0"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        Text="查询方式:" />
+                    <CheckBox
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Content="模糊查询"
+                        FontSize="20"
+                        IsChecked="True" />
+                    <CheckBox
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Content="按标题查询"
+                        FontSize="20"
+                        IsChecked="True" />
+                    <CheckBox
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Content="按文章内容查询"
+                        FontSize="20"
+                        IsChecked="True" />
+
+                </StackPanel>
+                <Grid Background="{DynamicResource RegionBrush}">
+                    <TextBlock
+                        Margin="15,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontSize="15"
+                        FontWeight="ExtraLight"
+                        Text="查询到结果3个" />
+                </Grid>
+            </DockPanel>
+
+            <hc:Card Margin="15,0" DockPanel.Dock="Top">
+                <DockPanel Height="160" LastChildFill="True">
+                    <Button
+                        Height="60"
+                        HorizontalAlignment="Left"
+                        BorderThickness="0"
+                        Content="5款开源、美观、强大的WPF UI组件库"
+                        DockPanel.Dock="Top"
+                        FontSize="24"
+                        FontWeight="Black"
+                        Style="{DynamicResource ButtonDashed}" />
+                    <RichTextBox DockPanel.Dock="Top" IsReadOnly="True">
+                        <FlowDocument>
+                            <Paragraph>前言</Paragraph>
+                            <Paragraph>经常看到有小伙伴在DotNetGuide技术社区微信交流群里提问：WPF有什么好用或者好看的UI组件库？,今天大姚给大家分享5款开源、美观、强大、简单易用的WPF UI组件库。</Paragraph>
+                            <Paragraph>WPF介绍</Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                </DockPanel>
+            </hc:Card>
+
+            <hc:Card Margin="15,0" DockPanel.Dock="Top">
+                <DockPanel Height="160" LastChildFill="True">
+                    <Button
+                        Height="60"
+                        HorizontalAlignment="Left"
+                        BorderThickness="0"
+                        Content="5款开源、美观、强大的WPF UI组件库"
+                        DockPanel.Dock="Top"
+                        FontSize="24"
+                        FontWeight="Black"
+                        Style="{DynamicResource ButtonDashed}" />
+                    <RichTextBox DockPanel.Dock="Top" IsReadOnly="True">
+                        <FlowDocument>
+                            <Paragraph>前言</Paragraph>
+                            <Paragraph>经常看到有小伙伴在DotNetGuide技术社区微信交流群里提问：WPF有什么好用或者好看的UI组件库？,今天大姚给大家分享5款开源、美观、强大、简单易用的WPF UI组件库。</Paragraph>
+                            <Paragraph>WPF介绍</Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                </DockPanel>
+            </hc:Card>
+
+            <hc:Card Margin="15,0" DockPanel.Dock="Top">
+                <DockPanel Height="160" LastChildFill="True">
+                    <Button
+                        Height="60"
+                        HorizontalAlignment="Left"
+                        BorderThickness="0"
+                        Content="5款开源、美观、强大的WPF UI组件库"
+                        DockPanel.Dock="Top"
+                        FontSize="24"
+                        FontWeight="Black"
+                        Style="{DynamicResource ButtonDashed}" />
+                    <RichTextBox DockPanel.Dock="Top" IsReadOnly="True">
+                        <FlowDocument>
+                            <Paragraph>前言</Paragraph>
+                            <Paragraph>经常看到有小伙伴在DotNetGuide技术社区微信交流群里提问：WPF有什么好用或者好看的UI组件库？,今天大姚给大家分享5款开源、美观、强大、简单易用的WPF UI组件库。</Paragraph>
+                            <Paragraph>WPF介绍</Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                </DockPanel>
+            </hc:Card>
+
+            <hc:Card Margin="15,0" DockPanel.Dock="Top">
+                <DockPanel Height="160" LastChildFill="True">
+                    <Button
+                        Height="60"
+                        HorizontalAlignment="Left"
+                        BorderThickness="0"
+                        Content="5款开源、美观、强大的WPF UI组件库"
+                        DockPanel.Dock="Top"
+                        FontSize="24"
+                        FontWeight="Black"
+                        Style="{DynamicResource ButtonDashed}" />
+                    <RichTextBox DockPanel.Dock="Top" IsReadOnly="True">
+                        <FlowDocument>
+                            <Paragraph>前言</Paragraph>
+                            <Paragraph>经常看到有小伙伴在DotNetGuide技术社区微信交流群里提问：WPF有什么好用或者好看的UI组件库？,今天大姚给大家分享5款开源、美观、强大、简单易用的WPF UI组件库。</Paragraph>
+                            <Paragraph>WPF介绍</Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                </DockPanel>
+            </hc:Card>
+
+            <hc:GotoTop
+                Grid.Row="2"
+                Margin="15"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Animated="True"
+                AnimationTime="500"
+                AutoHiding="True"
+                DockPanel.Dock="Top"
+                Target="{Binding ElementName=SearchScrollViewer}"
+                ToolTip="返回顶部" />
+            <TextBlock
+                Margin="15,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                DockPanel.Dock="Bottom"
+                FontSize="12"
+                Text="{Binding Message}"
+                ToolTip="{Binding Message}" />
+        </DockPanel>
+    </hc:ScrollViewer>
+</UserControl>

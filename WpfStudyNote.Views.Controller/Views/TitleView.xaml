@@ -63,31 +63,8 @@
                 </Border>
 
                 <!--  搜索框  -->
-                <DockPanel LastChildFill="True">
-                    <Button
-                        Width="44"
-                        Height="44"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        hc:IconElement.Geometry="{DynamicResource SearchGeometry}"
-                        hc:IconElement.Height="23"
-                        hc:IconElement.Width="23"
-                        BorderThickness="0"
-                        DockPanel.Dock="Right"
-                        Style="{DynamicResource ButtonIcon}" />
-                    <TextBox
-                        MinWidth="300"
-                        VerticalContentAlignment="Center"
-                        hc:TitleElement.HorizontalAlignment="Left"
-                        hc:TitleElement.MarginOnTheLeft="10"
-                        hc:TitleElement.Title="搜索"
-                        hc:TitleElement.TitlePlacement="Left"
-                        hc:TitleElement.VerticalAlignment="Center"
-                        Style="{DynamicResource TextBoxExtend}" />
-                </DockPanel>
+                <hc:SearchBar Command="{Binding DelegateCommand}" CommandParameter="Search" />
             </DockPanel>
-
         </Border>
-
     </Grid>
 </UserControl>
