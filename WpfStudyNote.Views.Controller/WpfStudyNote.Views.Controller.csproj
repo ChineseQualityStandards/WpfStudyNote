@@ -8,11 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WpfStudyNote.ControlLibrary\WpfStudyNote.ControlLibrary.csproj" />
     <ProjectReference Include="..\WpfStudyNote.Interfaces\WpfStudyNote.Interfaces.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
 </Project>

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfStudyNote.Core.Constants;
+using WpfStudyNote.Views.Controller.ViewModels;
+using WpfStudyNote.Views.Controller.Views;
 
 namespace WpfStudyNote.Views.Controller
 {
@@ -11,7 +14,7 @@ namespace WpfStudyNote.Views.Controller
     /// </summary>
     public class ControllerModule : IModule
     {
-        #region 属性
+        #region 字段
 
         /// <summary>
         /// 区域管理器
@@ -41,7 +44,10 @@ namespace WpfStudyNote.Views.Controller
         /// <param name="containerProvider"></param>
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            
+            _regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, ViewNames.HomeView);
+            _regionManager.RegisterViewWithRegion(RegionNames.DrawerRegion, ViewNames.DrawerView);
+            _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, ViewNames.MainView);
+            _regionManager.RegisterViewWithRegion(RegionNames.TitleRegion, ViewNames.TitleView);
         }
 
         /// <summary>
@@ -50,7 +56,10 @@ namespace WpfStudyNote.Views.Controller
         /// <param name="containerRegistry"></param>
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            
+            containerRegistry.RegisterForNavigation<DrawerView, DrawerViewModel>();
+            containerRegistry.RegisterForNavigation<MainView, MainViewModel>();
+            containerRegistry.RegisterForNavigation<TitleView, TitleViewModel>();
+            containerRegistry.RegisterForNavigation<HomeView, HomeViewModel>();
         }
 
         #endregion

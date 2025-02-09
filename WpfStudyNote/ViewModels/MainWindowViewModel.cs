@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using WpfStudyNote.Core.ModelBases;
 
 namespace WpfStudyNote.ViewModels
@@ -24,6 +25,12 @@ namespace WpfStudyNote.ViewModels
             get { return title; }
             set { SetProperty(ref title, value); }
         }
+
+        // 工作区高度
+        public double WorkAreaHeight { get { return SystemParameters.WorkArea.Height; } }
+        // 工作区宽度
+        public double WorkAreaWidth { get { return SystemParameters.WorkArea.Width; } }
+
 
         #endregion
 

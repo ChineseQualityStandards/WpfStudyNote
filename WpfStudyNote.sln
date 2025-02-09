@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfStudyNote", "WpfStudyNote\WpfStudyNote.csproj", "{2CC0A516-A142-4C17-9EA2-18AD33732654}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfStudyNote.Services", "WpfStudyNote.Services\WpfStudyNote.Services.csproj", "{F2E75FAB-E21D-458A-9813-2DA90E7DA4E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfStudyNote.Views.Controller", "WpfStudyNote.Views.Controller\WpfStudyNote.Views.Controller.csproj", "{11BA300A-7ED7-47F0-83A0-60772255E3B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfStudyNote.ControlLibrary", "WpfStudyNote.ControlLibrary\WpfStudyNote.ControlLibrary.csproj", "{CC4C1ED9-F1BE-4276-BDE8-3336B60ABCFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{11BA300A-7ED7-47F0-83A0-60772255E3B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11BA300A-7ED7-47F0-83A0-60772255E3B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11BA300A-7ED7-47F0-83A0-60772255E3B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC4C1ED9-F1BE-4276-BDE8-3336B60ABCFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC4C1ED9-F1BE-4276-BDE8-3336B60ABCFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC4C1ED9-F1BE-4276-BDE8-3336B60ABCFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC4C1ED9-F1BE-4276-BDE8-3336B60ABCFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
