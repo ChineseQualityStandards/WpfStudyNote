@@ -36,14 +36,17 @@ namespace WpfStudyNote.Views.Controller.ViewModels
         {
             switch (switch_on)
             {
+                case "CreateNote":
+                    _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.CreateNoteView);
+                    break;
                 case "GoHome":
                     _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.HomeView);
                     break;
-                case "GoTest":
-                    _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.TestView);
-                    break;
                 case "GoSetting":
                     _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.SettingView);
+                    break;
+                case "GoTest":
+                    _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.TestView);
                     break;
                 default:
                     break;

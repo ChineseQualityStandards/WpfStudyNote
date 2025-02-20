@@ -56,6 +56,7 @@ namespace WpfStudyNote.Views.Controller
         /// <param name="containerRegistry"></param>
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterForNavigation<CreateNoteView, CreateNoteViewModel>();
             containerRegistry.RegisterForNavigation<DrawerView, DrawerViewModel>();
             containerRegistry.RegisterForNavigation<MainView, MainViewModel>();
             containerRegistry.RegisterForNavigation<TitleView, TitleViewModel>();

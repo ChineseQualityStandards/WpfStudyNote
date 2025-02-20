@@ -11,6 +11,7 @@ namespace WpfStudyNote.Core.Constants
     /// </summary>
     public class ViewNames
     {
+        public const string CreateNoteView = "CreateNoteView";
         public const string DrawerView = "DrawerView";
         public const string HomeView = "HomeView";
         public const string MainView = "MainView";
