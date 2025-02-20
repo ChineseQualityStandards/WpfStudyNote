@@ -15,6 +15,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfStudyNote.Views.Controll
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfStudyNote.ControlLibrary", "WpfStudyNote.ControlLibrary\WpfStudyNote.ControlLibrary.csproj", "{CC4C1ED9-F1BE-4276-BDE8-3336B60ABCFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfStudyNote.Aspire.AppHost", "WpfStudyNote.Aspire\WpfStudyNote.Aspire.AppHost\WpfStudyNote.Aspire.AppHost.csproj", "{4123BB57-045F-4F7D-B571-B7882DA90122}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfStudyNote.Aspire.ServiceDefaults", "WpfStudyNote.Aspire\WpfStudyNote.Aspire.ServiceDefaults\WpfStudyNote.Aspire.ServiceDefaults.csproj", "{886A679C-7026-40CF-AA7F-01CDE9BFD27A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfStudyNote.Aspire.ApiService", "WpfStudyNote.Aspire\WpfStudyNote.Aspire.ApiService\WpfStudyNote.Aspire.ApiService.csproj", "{38B1B6D0-2DC9-4ADE-8616-E153819964A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfStudyNote.Aspire.Web", "WpfStudyNote.Aspire\WpfStudyNote.Aspire.Web\WpfStudyNote.Aspire.Web.csproj", "{CA7532E6-6186-4548-A318-3C3D9FF6B2BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +53,22 @@ Global
 		{CC4C1ED9-F1BE-4276-BDE8-3336B60ABCFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC4C1ED9-F1BE-4276-BDE8-3336B60ABCFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC4C1ED9-F1BE-4276-BDE8-3336B60ABCFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4123BB57-045F-4F7D-B571-B7882DA90122}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4123BB57-045F-4F7D-B571-B7882DA90122}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4123BB57-045F-4F7D-B571-B7882DA90122}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4123BB57-045F-4F7D-B571-B7882DA90122}.Release|Any CPU.Build.0 = Release|Any CPU
+		{886A679C-7026-40CF-AA7F-01CDE9BFD27A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{886A679C-7026-40CF-AA7F-01CDE9BFD27A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{886A679C-7026-40CF-AA7F-01CDE9BFD27A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{886A679C-7026-40CF-AA7F-01CDE9BFD27A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38B1B6D0-2DC9-4ADE-8616-E153819964A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38B1B6D0-2DC9-4ADE-8616-E153819964A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38B1B6D0-2DC9-4ADE-8616-E153819964A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38B1B6D0-2DC9-4ADE-8616-E153819964A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA7532E6-6186-4548-A318-3C3D9FF6B2BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA7532E6-6186-4548-A318-3C3D9FF6B2BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA7532E6-6186-4548-A318-3C3D9FF6B2BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA7532E6-6186-4548-A318-3C3D9FF6B2BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

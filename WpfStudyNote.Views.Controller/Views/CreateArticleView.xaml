@@ -1,0 +1,247 @@
+﻿<UserControl
+    x:Class="WpfStudyNote.Views.Controller.Views.CreateArticleView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:WpfStudyNote.Views.Controller.ControllerHelper"
+    xmlns:local="clr-namespace:WpfStudyNote.Views.Controller.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="450"
+    d:DesignWidth="1000"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <DockPanel LastChildFill="True">
+        <!--  菜单和操作栏  -->
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar
+                Margin="15,0"
+                ClipToBounds="False"
+                Style="{StaticResource MaterialDesignToolBar}">
+                <Button
+                    Content="{materialDesign:PackIcon Kind=FolderOpen}"
+                    Style="{DynamicResource MaterialDesignIconForegroundButton}"
+                    ToolTip="导入本地文档" />
+                <Button
+                    Content="{materialDesign:PackIcon Kind=ContentSave}"
+                    Style="{DynamicResource MaterialDesignIconForegroundButton}"
+                    ToolTip="保存到本地" />
+                <Separator />
+                <Button
+                    Command="ApplicationCommands.Cut"
+                    CommandTarget="{Binding ElementName=NoteBox}"
+                    Content="{materialDesign:PackIcon Kind=ContentCut}"
+                    Style="{DynamicResource MaterialDesignIconForegroundButton}"
+                    ToolBar.OverflowMode="Never"
+                    ToolTip="剪切 Ctrl+X" />
+                <Button
+                    Command="ApplicationCommands.Copy"
+                    CommandTarget="{Binding ElementName=NoteBox}"
+                    Content="{materialDesign:PackIcon Kind=ContentCopy}"
+                    Style="{DynamicResource MaterialDesignIconForegroundButton}"
+                    ToolBar.OverflowMode="Never"
+                    ToolTip="复制 Ctrl+C" />
+                <Separator />
+                <Button
+                    Command="ApplicationCommands.Paste"
+                    CommandTarget="{Binding ElementName=NoteBox}"
+                    Content="{materialDesign:PackIcon Kind=ContentPaste}"
+                    Style="{DynamicResource MaterialDesignIconForegroundButton}"
+                    ToolBar.OverflowMode="Never"
+                    ToolTip="粘贴 Ctrl+V" />
+                <Separator />
+                <ComboBox
+                    x:Name="FontSizeComboBox"
+                    Width="55"
+                    ItemsSource="{Binding RichTextBoxFonts.FontSize}"
+                    SelectionChanged="FontSizeComboBox_SelectionChanged"
+                    Style="{DynamicResource ComboBoxExtendBaseStyle}" />
+                <Button
+                    Command="EditingCommands.DecreaseFontSize"
+                    CommandTarget="{Binding ElementName=NoteBox}"
+                    Content="{materialDesign:PackIcon Kind=FormatFontSizeDecrease}"
+                    Style="{DynamicResource MaterialDesignIconForegroundButton}"
+                    ToolTip="缩小字号 Ctrl+[" />
+                <Button
+                    Command="EditingCommands.IncreaseFontSize"
+                    CommandTarget="{Binding ElementName=FontSize}"
+                    Content="{materialDesign:PackIcon Kind=FormatFontSizeIncrease}"
+                    Style="{DynamicResource MaterialDesignIconForegroundButton}"
+                    ToolTip="增大字号 Ctrl+]" />
+                <Button
+                    Command="EditingCommands.ToggleBold"
+                    CommandTarget="{Binding ElementName=NoteBox}"
+                    Content="{materialDesign:PackIcon Kind=FormatBold}"
+                    Style="{DynamicResource MaterialDesignIconForegroundButton}"
+                    ToolTip="加粗 Ctrl+B" />
+                <Button
+                    Command="EditingCommands.ToggleItalic"
+                    CommandTarget="{Binding ElementName=NoteBox}"
+                    Content="{materialDesign:PackIcon Kind=FormatItalic}"
+                    Style="{DynamicResource MaterialDesignIconForegroundButton}"
+                    ToolTip="斜体 Ctrl+I" />
+                <Button
+                    Command="EditingCommands.ToggleUnderline"
+                    CommandTarget="{Binding ElementName=NoteBox}"
+                    Content="{materialDesign:PackIcon Kind=FormatUnderline}"
+                    Style="{DynamicResource MaterialDesignIconForegroundButton}"
+                    ToolTip="下划线 Ctrl+U" />
+                <Separator />
+                <ListBox
+                    SelectedIndex="0"
+                    SelectionMode="Single"
+                    Style="{DynamicResource StackPanelHorizontalListBox}">
+                    <Button
+                        Command="EditingCommands.AlignLeft"
+                        CommandTarget="{Binding ElementName=NoteBox}"
+                        Content="{materialDesign:PackIcon Kind=FormatAlignLeft}"
+                        Style="{DynamicResource MaterialDesignIconForegroundButton}"
+                        ToolTip="左对齐 Ctrl+L" />
+                    <Button
+                        Command="EditingCommands.AlignCenter"
+                        CommandTarget="{Binding ElementName=NoteBox}"
+                        Content="{materialDesign:PackIcon Kind=FormatAlignCenter}"
+                        Style="{DynamicResource MaterialDesignIconForegroundButton}"
+                        ToolTip="居中对齐 Ctrl+E" />
+                    <Button
+                        Command="EditingCommands.AlignRight"
+                        CommandTarget="{Binding ElementName=NoteBox}"
+                        Content="{materialDesign:PackIcon Kind=FormatAlignRight}"
+                        Style="{DynamicResource MaterialDesignIconForegroundButton}"
+                        ToolTip="右对齐 Ctrl+R" />
+                    <Button
+                        Command="EditingCommands.AlignJustify"
+                        CommandTarget="{Binding ElementName=NoteBox}"
+                        Content="{materialDesign:PackIcon Kind=FormatAlignJustify}"
+                        Style="{DynamicResource MaterialDesignIconForegroundButton}"
+                        ToolTip="两端对齐" />
+                </ListBox>
+                <ListBox SelectionMode="Single" Style="{DynamicResource StackPanelHorizontalListBox}">
+                    <Button
+                        Command="EditingCommands.ToggleBullets"
+                        CommandTarget="{Binding ElementName=NoteBox}"
+                        Content="{materialDesign:PackIcon Kind=FormatListBulleted}"
+                        Style="{DynamicResource MaterialDesignIconForegroundButton}"
+                        ToolTip="无序列表" />
+                    <Button
+                        Command="EditingCommands.ToggleNumbering"
+                        CommandTarget="{Binding ElementName=NoteBox}"
+                        Content="{materialDesign:PackIcon Kind=FormatListNumbered}"
+                        Style="{DynamicResource MaterialDesignIconForegroundButton}"
+                        ToolTip="有序列表" />
+                </ListBox>
+                <Separator />
+            </ToolBar>
+        </ToolBarTray>
+        <hc:ScrollViewer Margin="5">
+            <DockPanel>
+                <!--  标题栏  -->
+                <hc:TextBox
+                    Margin="10,0"
+                    Padding="10"
+                    hc:InfoElement.Placeholder="请输入标题(5~100字)"
+                    DockPanel.Dock="Top"
+                    FontSize="20" />
+                <!--  通知文字  -->
+                <TextBlock
+                    Margin="10,0,5,10"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    DockPanel.Dock="Bottom"
+                    Style="{DynamicResource TextBlockDefaultPrimary}"
+                    Text="{Binding Message}" />
+                <!--  文章信息  -->
+                <hc:SimpleStackPanel
+                    Margin="10,5"
+                    Background="{DynamicResource DefaultBrush}"
+                    DockPanel.Dock="Bottom"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="10,5"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="添加封面:"
+                        TextAlignment="Center" />
+                    <hc:ImageSelector
+                        Width="216"
+                        Height="144"
+                        Margin="10" />
+                    <DockPanel Width="500" LastChildFill="True">
+                        <DockPanel DockPanel.Dock="Top" LastChildFill="True">
+                            <Button Content="载入图片" DockPanel.Dock="Right" />
+                            <hc:TextBox
+                                Margin="10"
+                                Padding="5"
+                                hc:InfoElement.Placeholder="输入封面图片地址"
+                                DockPanel.Dock="Top" />
+                        </DockPanel>
+                        <hc:TextBox
+                            Margin="10"
+                            Padding="5"
+                            HorizontalContentAlignment="Left"
+                            VerticalContentAlignment="Top"
+                            hc:InfoElement.Placeholder="请用简短的话概括你的文章……"
+                            AcceptsReturn="True"
+                            DockPanel.Dock="Top" />
+                    </DockPanel>
+                    <DockPanel Margin="5" LastChildFill="False">
+                        <Button
+                            Height="40"
+                            Margin="5"
+                            Content="退出编辑"
+                            DockPanel.Dock="Top"
+                            FontSize="24"
+                            Style="{DynamicResource ButtonDanger}" />
+                        <Button
+                            Height="40"
+                            Margin="5"
+                            Content="上传文章"
+                            DockPanel.Dock="Top"
+                            FontSize="24"
+                            Style="{DynamicResource ButtonSuccess}" />
+
+                    </DockPanel>
+                </hc:SimpleStackPanel>
+                <!--  标签信息  -->
+                <hc:SimplePanel
+                    Margin="10"
+                    Background="{DynamicResource DefaultBrush}"
+                    DockPanel.Dock="Bottom">
+                    <hc:SimpleStackPanel Margin="10,5" Orientation="Horizontal">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Foreground="Red"
+                            Text="*"
+                            TextAlignment="Center" />
+                        <TextBlock
+                            Margin="10,5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="文章标签:"
+                            TextAlignment="Center" />
+                        <hc:TagContainer MaxWidth="700" Margin="10,5">
+                            <hc:Tag Content="C#" />
+                            <hc:Tag Content="Sql" />
+                        </hc:TagContainer>
+                        <Button
+                            Margin="10,5"
+                            hc:IconElement.Geometry="{DynamicResource AddGeometry}"
+                            Content="添加标签" />
+                    </hc:SimpleStackPanel>
+                </hc:SimplePanel>
+                <!--  富文本控件  -->
+                <RichTextBox
+                    x:Name="NoteBox"
+                    Grid.Row="1"
+                    MinHeight="500"
+                    Margin="10"
+                    helper:RichTextBoxHelperExactly.FlowDocument="{Binding Data}"
+                    ScrollViewer.VerticalScrollBarVisibility="Visible" />
+            </DockPanel>
+        </hc:ScrollViewer>
+    </DockPanel>
+
+</UserControl>

@@ -56,12 +56,14 @@ namespace WpfStudyNote.Views.Controller
         /// <param name="containerRegistry"></param>
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterForNavigation<CreateArticleView, CreateArticleViewModel>();
             containerRegistry.RegisterForNavigation<DrawerView, DrawerViewModel>();
             containerRegistry.RegisterForNavigation<MainView, MainViewModel>();
             containerRegistry.RegisterForNavigation<TitleView, TitleViewModel>();
             containerRegistry.RegisterForNavigation<HomeView, HomeViewModel>();
             containerRegistry.RegisterForNavigation<SettingView, SettingViewModel>();
             containerRegistry.RegisterForNavigation<SearchView, SearchViewModel>();
+            containerRegistry.RegisterForNavigation<ShowArticleView, ShowArticleViewModel>();
             containerRegistry.RegisterForNavigation<TestView, TestViewModel>();
         }
 

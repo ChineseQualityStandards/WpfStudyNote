@@ -1,0 +1,108 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows;
+using System.Windows.Documents;
+using WpfStudyNote.Core.ModelBases;
+using WpfStudyNote.Interfaces;
+using WpfStudyNote.Core.Models;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace WpfStudyNote.Views.Controller.ViewModels
+{
+    public class CreateArticleViewModel : RegionViewModelBase
+    {
+        
+
+        #region 字段
+
+        private readonly IRegionManager _regionManager;
+        private readonly IFontsService _fontsService;
+        private readonly IRichTextBoxService _richTextBoxService;
+
+        #endregion
+
+        #region 属性
+
+        private FlowDocument? data;
+        /// <summary>
+        /// 用于存储NoteBox的数据
+        /// </summary>
+        public FlowDocument? Data
+        {
+            get { return data; }
+            set { SetProperty(ref data, value); }
+        }
+        private FontsProperties? richTextBoxFonts;
+        /// <summary>
+        /// 存储字体属性
+        /// </summary>
+        public FontsProperties? RichTextBoxFonts
+        {
+            get { return richTextBoxFonts; }
+            set { SetProperty(ref richTextBoxFonts, value); }
+        }
+
+
+        #endregion
+
+        #region 命令
+
+        public DelegateCommand<string> DelegateCommand { get; set; }
+        /// <summary>
+        /// 如果绑定不了数据就把整个控件丢进来 (╯°皿°）╯︵ ┻━┻
+        /// </summary>
+        //public DelegateCommand<RichTextBox> DelegateCommand { get; set; }
+
+
+
+        #endregion
+
+        #region 构造函数
+
+        public CreateArticleViewModel(IRegionManager regionManager, IFontsService fontsService, IRichTextBoxService richTextBoxService) : base(regionManager)
+        {
+            _regionManager = regionManager;
+            _fontsService = fontsService;
+            _richTextBoxService = richTextBoxService;
+
+            Data = new FlowDocument();
+
+            RichTextBoxFonts = _fontsService.GetFontsProperties();
+
+            DelegateCommand = new DelegateCommand<string>(DelegateMethod);
+
+            
+
+            SetMessage("This is CreateArticleView!");
+        }
+
+        
+
+
+
+        #endregion
+
+        #region 方法
+
+        private void DelegateMethod(string value)
+        {
+            try
+            {
+                if (Data != null)
+                    System.Diagnostics.Debug.WriteLine(_richTextBoxService.GetStringInUTF8(Data));
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+        }
+
+        #endregion
+    }
+}

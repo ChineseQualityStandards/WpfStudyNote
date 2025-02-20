@@ -18,7 +18,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <DockPanel LastChildFill="True">
-            <Border
+            <!--<Border
                 Background="{DynamicResource DarkInfoBrush}"
                 BorderThickness="0"
                 CornerRadius="0"
@@ -32,15 +32,18 @@
                     BorderThickness="0"
                     IsChecked="{Binding ElementName=DrawerLeft, Path=IsOpen}"
                     Style="{StaticResource ToggleButtonIcon}" />
-            </Border>
+            </Border>-->
             <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.TitleRegion}" />
         </DockPanel>
-        <ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
+        <DockPanel Grid.Row="1" LastChildFill="True">
+            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.DrawerRegion}" DockPanel.Dock="Left" />
+            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
+        </DockPanel>
         <!--  左边抽屉  -->
-        <hc:Drawer
+        <!--<hc:Drawer
             x:Name="DrawerLeft"
             Dock="Left"
-            ShowMode="Cover">
+            ShowMode="Push">
             <Border
                 Margin="0,66,0,0"
                 Background="{DynamicResource RegionBrush}"
@@ -48,6 +51,6 @@
                 BorderThickness="0,1,0,0">
                 <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.DrawerRegion}" />
             </Border>
-        </hc:Drawer>
+        </hc:Drawer>-->
     </Grid>
 </UserControl>
