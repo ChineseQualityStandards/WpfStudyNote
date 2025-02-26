@@ -8,11 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Prism.Wpf" Version="9.0.537" />
     <PackageReference Include="System.Drawing.Common" Version="9.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\WpfStudyNote.ControlLibrary\WpfStudyNote.ControlLibrary.csproj" />
+    <ProjectReference Include="..\WpfStudyNote.Core\WpfStudyNote.Core.csproj" />
     <ProjectReference Include="..\WpfStudyNote.Services\WpfStudyNote.Services.csproj" />
   </ItemGroup>
 

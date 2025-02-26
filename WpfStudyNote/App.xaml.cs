@@ -2,12 +2,15 @@
 using System.Configuration;
 using System.Data;
 using System.Windows;
+using MaterialDesignThemes.Wpf;
 using Prism.Ioc;
 using Prism.Modularity;
+using WpfStudyNote.Core.Models;
 using WpfStudyNote.Interfaces;
 using WpfStudyNote.Services;
 using WpfStudyNote.Views;
 using WpfStudyNote.Views.Controller;
+using WpfStudyNote.Views.Controller.Views;
 
 namespace WpfStudyNote
 {
@@ -23,6 +26,20 @@ namespace WpfStudyNote
 
         protected override void OnInitialized()
         {
+            IDialogService dialogService = Container.Resolve<IDialogService>();
+            dialogService.ShowDialog("LoginView", callback =>
+            {
+                if (callback.Result == ButtonResult.OK)
+                {
+                    AppSession.UserSessionMethod(callback.Parameters.GetValue<Accounts>("Accounts"));
+                    MessageBox.Show("登陆成功");
+                    return;
+                }
+                else
+                {
+                    Current.Shutdown();
+                }
+            });
             base.OnInitialized();
         }
 
@@ -33,6 +50,7 @@ namespace WpfStudyNote
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IFontsService, FontsService>();
+            containerRegistry.RegisterSingleton<ILoginService, LoginService>();
             containerRegistry.RegisterSingleton<IRichTextBoxService,RichTextBoxService>();
         }
 

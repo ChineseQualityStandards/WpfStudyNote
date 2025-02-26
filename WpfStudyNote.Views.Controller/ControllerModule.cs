@@ -58,12 +58,13 @@ namespace WpfStudyNote.Views.Controller
         {
             containerRegistry.RegisterForNavigation<CreateArticleView, CreateArticleViewModel>();
             containerRegistry.RegisterForNavigation<DrawerView, DrawerViewModel>();
+            containerRegistry.RegisterDialog<LoginView,LoginViewModel>();
             containerRegistry.RegisterForNavigation<MainView, MainViewModel>();
-            containerRegistry.RegisterForNavigation<TitleView, TitleViewModel>();
             containerRegistry.RegisterForNavigation<HomeView, HomeViewModel>();
-            containerRegistry.RegisterForNavigation<SettingView, SettingViewModel>();
             containerRegistry.RegisterForNavigation<SearchView, SearchViewModel>();
+            containerRegistry.RegisterForNavigation<SettingView, SettingViewModel>();
             containerRegistry.RegisterForNavigation<ShowArticleView, ShowArticleViewModel>();
+            containerRegistry.RegisterForNavigation<TitleView, TitleViewModel>();
             containerRegistry.RegisterForNavigation<TestView, TestViewModel>();
         }
 
