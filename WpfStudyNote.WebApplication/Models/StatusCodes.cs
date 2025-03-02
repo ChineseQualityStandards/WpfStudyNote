@@ -16,6 +16,10 @@ public enum StatusCode
     /// </summary>
     Accepted = 202,
     /// <summary>
+    /// 删除成功
+    /// </summary>
+    Deleted = 203,
+    /// <summary>
     /// 无内容
     /// </summary>
     NoContent = 204,

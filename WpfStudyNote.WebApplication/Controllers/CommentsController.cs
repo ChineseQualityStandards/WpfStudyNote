@@ -10,48 +10,127 @@ using WpfStudyNote.WebApplication.Models;
 
 namespace WpfStudyNote.WebApplication.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]/[action]")]
     [ApiController]
     public class CommentsController : ControllerBase
     {
+        #region 字段
+
         private readonly WebApplicationDbContext _context;
+
+        #endregion
+
+        #region 构造函数
 
         public CommentsController(WebApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Comments
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Comments>>> GetComments()
+        #endregion
+
+        #region 接口方法
+
+        [HttpPost]
+        [Tags("评论管理")]
+        public async Task<ApiReponse> CreateAsync(Comments comments)
         {
-            return await _context.Comments.ToListAsync();
+            try
+            {
+                if (comments.ArticleId == 0)
+                {
+                    throw new NullReferenceException("文章ID不能为空");
+                }
+                if (comments.AccountId == 0)
+                {
+                    throw new NullReferenceException("作者ID不能为空");
+                }
+                if (string.IsNullOrEmpty(comments.Content))
+                {
+                    throw new NullReferenceException("评论内容不能为空");
+                }
+                comments.CommentId = 0;
+                _context.Comments.Add(comments);
+                await _context.SaveChangesAsync();
+
+                return ApiReponse.Created(comments);
+            }
+            catch (Exception ex)
+            {
+                return ApiReponse.Error(ex.Message);
+            }
         }
 
-        // GET: api/Comments/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Comments>> GetComments(int id)
+        [HttpDelete("{id}")]
+        [Tags("评论管理")]
+        public async Task<ApiReponse> DeleteAsync(int id)
         {
-            var comments = await _context.Comments.FindAsync(id);
+            try
+            {
+                var comments = await _context.Comments.FindAsync(id);
+                if (comments == null)
+                {
+                    return ApiReponse.NotFound();
+                }
 
+                _context.Comments.Remove(comments);
+                await _context.SaveChangesAsync();
+
+                return ApiReponse.Delete();
+            }
+            catch (Exception ex)
+            {
+                return ApiReponse.Error(ex.Message);
+            }
+        }
+
+        [HttpGet("{id}")]
+        [Tags("评论管理")]
+        public async Task<ApiReponse> GetAllAsync(int id)
+        {
+            try
+            {
+                return ApiReponse.Found(await _context.Comments.Where(c => c.ArticleId.Equals(id)).ToListAsync());
+            }
+            catch (Exception ex)
+            {
+                return ApiReponse.Error(ex.Message);
+            }
+        }
+
+        [HttpGet("{id}")]
+        [Tags("评论管理")]
+        public async Task<ApiReponse> GetExactAsync(int id)
+        {
+            try
+            {
+                var comments = await _context.Comments.FindAsync(id);
+
+                if (comments == null)
+                {
+                    return ApiReponse.NotFound();
+                }
+
+                return ApiReponse.Found(comments);
+            }
+            catch (Exception ex)
+            {
+                return ApiReponse.Error(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}")]
+        [Tags("评论管理")]
+        public async Task<ApiReponse> UpdateAsync(int id,Comments comments)
+        {
             if (comments == null)
             {
-                return NotFound();
+                throw new NullReferenceException("评论不能为空");
             }
-
-            return comments;
-        }
-
-        // PUT: api/Comments/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutComments(int id, Comments comments)
-        {
-            if (id != comments.CommentId)
+            if(id != comments.AccountId)
             {
-                return BadRequest();
+                return ApiReponse.Unauthorized();
             }
-
             _context.Entry(comments).State = EntityState.Modified;
 
             try
@@ -62,7 +141,7 @@ namespace WpfStudyNote.WebApplication.Controllers
             {
                 if (!CommentsExists(id))
                 {
-                    return NotFound();
+                    return ApiReponse.NotFound();
                 }
                 else
                 {
@@ -70,39 +149,18 @@ namespace WpfStudyNote.WebApplication.Controllers
                 }
             }
 
-            return NoContent();
+            return ApiReponse.Modified();
         }
 
-        // POST: api/Comments
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Comments>> PostComments(Comments comments)
-        {
-            _context.Comments.Add(comments);
-            await _context.SaveChangesAsync();
+        #endregion
 
-            return CreatedAtAction("GetComments", new { id = comments.CommentId }, comments);
-        }
-
-        // DELETE: api/Comments/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteComments(int id)
-        {
-            var comments = await _context.Comments.FindAsync(id);
-            if (comments == null)
-            {
-                return NotFound();
-            }
-
-            _context.Comments.Remove(comments);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
+        #region 私有方法
 
         private bool CommentsExists(int id)
         {
             return _context.Comments.Any(e => e.CommentId == id);
         }
+
+        #endregion
     }
 }

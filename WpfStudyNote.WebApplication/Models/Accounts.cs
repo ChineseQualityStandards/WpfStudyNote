@@ -25,6 +25,7 @@ namespace WpfStudyNote.WebApplication.Models
         /// 邮箱  
         /// </summary>
         [MaxLength(100)]
+        [EmailAddress]
         public string? Email { get; set; }
 
         /// <summary>

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WpfStudyNote.WebApplication.Migrations
 {
     /// <inheritdoc />
-    public partial class mssqlonprem_migration_681 : Migration
+    public partial class mssqlonprem_migration_248 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,11 +49,14 @@ namespace WpfStudyNote.WebApplication.Migrations
                 name: "ArticleTags",
                 columns: table => new
                 {
+                    ArticleTagId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ArticleId = table.Column<int>(type: "int", nullable: false),
                     TagId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_ArticleTags", x => x.ArticleTagId);
                 });
 
             migrationBuilder.CreateTable(
@@ -78,7 +81,7 @@ namespace WpfStudyNote.WebApplication.Migrations
                     ArticleId = table.Column<int>(type: "int", nullable: false),
                     AccountId = table.Column<int>(type: "int", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {

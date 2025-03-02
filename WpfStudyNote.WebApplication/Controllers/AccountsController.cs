@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,151 +19,222 @@ namespace WpfStudyNote.WebApplication.Controllers
     [ApiController]
     public class AccountsController : ControllerBase
     {
+        #region 字段
+
         private readonly WebApplicationDbContext _context;
+
+        #endregion
+
+        #region 构造函数
 
         public AccountsController(WebApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Accounts
-        [HttpGet]
-        [Tags("用户管理")]
-        public async Task<ApiReponse> GetAccounts()
-        {
-            var accounts = await _context.Accounts.ToListAsync();
-            // 不返回密码哈希，避免泄露
-            foreach (var account in accounts)
-            {
-                account.PasswordHash = null;
-            }
-            return ApiReponse.Ok(accounts);
-        }
+        #endregion
 
-        // GET: api/Accounts/5
-        [HttpGet("{id}")]
-        [Tags("用户管理")]
-        public async Task<ApiReponse> GetAccounts(int id)
-        {
-            var accounts = await _context.Accounts.FindAsync(id);
+        #region 接口方法
 
-            if (accounts == null)
-            {
-                return ApiReponse.NoContent();
-            }
-            // 不返回密码哈希，避免泄露
-            accounts.PasswordHash = null;
-            return ApiReponse.Ok(accounts);
-        }
-
-        // POST: api/Accounts/Login
         [HttpPost]
         [Tags("用户管理")]
-        public async Task<ApiReponse> Login(string value, string password)
+        public async Task<ApiReponse> CreateAsync(Accounts account)
         {
-            Accounts account = null;
-
-            if (int.TryParse(value, out int intValue))
-            {
-                account = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountId == intValue);
-            }
-            /*
-             if (account == null)
-            {
-                account = await _context.Accounts
-                    .FirstOrDefaultAsync(a => a.AccountName == value && a.PasswordHash == HashSHA256(password));
-            }
-            */
-            if (account == null)
-            {
-                account = await _context.Accounts.FirstOrDefaultAsync(a => a.Email == value);
-            }
-            if (account == null)
-            {
-                return ApiReponse.NotFound();
-            }
-            if(account.PasswordHash != HashSHA256(password))
-            {
-                return ApiReponse.PasswordError();
-            }
-            // 不返回密码哈希，避免泄露
-            account.PasswordHash = null;
-            return ApiReponse.Ok(account);
-        }
-
-        // PUT: api/Accounts/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        [Tags("用户管理")]
-        public async Task<ApiReponse> PutAccounts(int id, Accounts account)
-        {
-            if (id != account.AccountId)
-            {
-                return ApiReponse.Error("用户ID无法匹配");
-            }
-
-            _context.Entry(account).State = EntityState.Modified;
-
             try
             {
+                // 确保不显式设置 AccountId
+                account.AccountId = 0;
+                if (string.IsNullOrEmpty(account.AccountName) || string.IsNullOrEmpty(account.Email))
+                {
+                    throw new NullReferenceException("用户名和邮箱为必须值");
+                }
+                if (string.IsNullOrEmpty(account.PasswordHash))
+                {
+                    throw new NullReferenceException("密码为必须值");
+                }
+                if (AccountNameExists(account.AccountName))
+                {
+                    throw new Exception("用户名已存在");
+                }
+                if (EmailExists(account.Email))
+                {
+                    throw new Exception("邮箱已存在");
+                }
+                account.CreatedAt = DateTime.UtcNow;
+                account.PasswordHash = HashSHA256(account.PasswordHash);
+                _context.Accounts.Add(account);
                 await _context.SaveChangesAsync();
+                account.PasswordHash = null;
+                return ApiReponse.Created(account);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!AccountsExists(id))
+                return ApiReponse.Error(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Tags("用户管理")]
+        public async Task<ApiReponse> DeleteAsync(Accounts account)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(account.PasswordHash) || account.AccountId == 0)
+                {
+                    throw new NullReferenceException("密码和用户ID为必须值");
+                }
+                var result = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountId == account.AccountId);
+                if (result == null)
                 {
                     return ApiReponse.NotFound();
                 }
-                else
+                if (result.PasswordHash != HashSHA256(account.PasswordHash))
                 {
-                    throw;
+                    return ApiReponse.PasswordError();
                 }
+
+                _context.Accounts.Remove(result);
+                await _context.SaveChangesAsync();
+
+                return ApiReponse.Delete();
             }
-            account.PasswordHash = null;
-            return ApiReponse.Ok(account);
+            catch (Exception ex)
+            {
+                return ApiReponse.Error(ex.Message);
+            }
         }
 
-        // POST: api/Accounts
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpGet]
+        [Tags("用户管理")]
+        public async Task<ApiReponse> GetAllAsync()
+        {
+            try
+            {
+                var results = await _context.Accounts.ToListAsync();
+                if (results.Count == 0)
+                {
+                    return ApiReponse.NoContent();
+                }
+                // 不返回密码哈希，避免泄露
+                foreach (var account in results)
+                {
+                    account.PasswordHash = null;
+                }
+                return ApiReponse.Found(results);
+            }
+            catch (Exception ex)
+            {
+                return ApiReponse.Error(ex.Message);
+            }
+        }
+
+        [HttpGet("{id}")]
+        [Tags("用户管理")]
+        public async Task<ApiReponse> GetExactAsync(int id)
+        {
+            try
+            {
+                var result = await _context.Accounts.FindAsync(id);
+                if (result == null)
+                {
+                    return ApiReponse.NoContent();
+                }
+                // 不返回密码哈希，避免泄露
+                result.PasswordHash = null;
+                return ApiReponse.Found(result);
+            }
+            catch (Exception ex)
+            {
+                return ApiReponse.Error(ex.Message);
+            }
+        }
+
+        [HttpPut("{password}")]
+        [Tags("用户管理")]
+        public async Task<ApiReponse> UpdateAsync(string password,Accounts account)
+        {
+            try
+            {
+                var user = await _context.Accounts.FindAsync(account.AccountId);
+                if (user == null) return ApiReponse.NotFound();
+                if (user.PasswordHash != HashSHA256(password))
+                {
+                    return ApiReponse.PasswordError();
+                }
+
+                // 更新用户属性
+                user.AccountName = account.AccountName;
+                user.Email = account.Email;
+                user.PasswordHash = HashSHA256(account.PasswordHash);
+                _context.Entry(user).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AccountsExists(user.AccountId))
+                    {
+                        return ApiReponse.NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                user.PasswordHash = null;
+                return ApiReponse.Modified(user);
+            }
+            catch (Exception ex)
+            {
+                return ApiReponse.Error(ex.Message);
+            }
+
+
+        }   
+
         [HttpPost]
         [Tags("用户管理")]
-        public async Task<ApiReponse> PostAccounts(Accounts account)
+        public async Task<ApiReponse> LoginAsync(Accounts accounts)
         {
-            // 确保不显式设置 AccountId
-            account.AccountId = 0;
+            Accounts result = null;
 
-            if (account.PasswordHash == null)
+            if (accounts.AccountId != 0)
             {
-                return ApiReponse.Error("密码不能为空");
+                result = await _context.Accounts.FindAsync(accounts.AccountId);
             }
-            account.CreatedAt = DateTime.UtcNow;
-            account.PasswordHash = HashSHA256(account.PasswordHash);
-            _context.Accounts.Add(account);
-            await _context.SaveChangesAsync();
-            account.PasswordHash = null;
-            return ApiReponse.Created(account); 
-        }
-
-        // DELETE: api/Accounts/5
-        [HttpDelete]
-        [Tags("用户管理")]
-        public async Task<ApiReponse> DeleteAccounts(int id, string password)
-        {
-            var accounts = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountId == id);
-            if (accounts == null)
+            else if (accounts.AccountName != null)
+            {
+                result = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountName == accounts.AccountName);
+            }
+            else if (accounts.Email != null)
+            {
+                result = await _context.Accounts.FirstOrDefaultAsync(a => a.Email == accounts.Email);
+            }
+            else
+            {
+                throw new NullReferenceException("用户名或邮箱不能为空");
+            }
+            if (result == null)
             {
                 return ApiReponse.NotFound();
             }
-            if (accounts.PasswordHash != HashSHA256(password))
+            if (result.PasswordHash != HashSHA256(accounts.PasswordHash))
             {
                 return ApiReponse.PasswordError();
             }
-
-            _context.Accounts.Remove(accounts);
-            await _context.SaveChangesAsync();
-
-            return ApiReponse.Gone();
+            // 不返回密码哈希，避免泄露
+            result.PasswordHash = null;
+            return ApiReponse.Accepted(result);
         }
+
+
+
+        #endregion
+
+        #region 辅助方法
+
 
         /// <summary>
         /// 判断用户是否存在
@@ -194,7 +266,23 @@ namespace WpfStudyNote.WebApplication.Controllers
             return _context.Accounts.Any(e => e.Email == email);
         }
 
-        #region 密文处理
+        /// <summary>
+        /// 判断是否是邮箱
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        private bool IsEmail(string email)
+        {
+            try
+            {
+                var addr = new MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         /// <summary>
         /// 字符串转字节数组

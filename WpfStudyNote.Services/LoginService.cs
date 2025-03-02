@@ -11,7 +11,7 @@ using WpfStudyNote.Interfaces;
 
 namespace WpfStudyNote.Services
 {
-    public class LoginService : ILoginService
+    public class LoginService : IApiServer<Accounts, ApiReponse>, ILoginService
     {
         private static RestClient client = new RestClient(StaticField.Api_Url);
 
@@ -42,6 +42,24 @@ namespace WpfStudyNote.Services
             {
                 return new ApiReponse() { Message = ex.Message };
             }
+        }
+
+        public new Task<ApiReponse> GetExactAsync(Accounts accounts)
+        {
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public new Task<ApiReponse> DeleteAsync(Accounts entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

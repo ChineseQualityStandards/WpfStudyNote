@@ -10,99 +10,146 @@ using WpfStudyNote.WebApplication.Models;
 
 namespace WpfStudyNote.WebApplication.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]/[action]")]
     [ApiController]
     public class CategoriesController : ControllerBase
     {
+        #region 字段
+
         private readonly WebApplicationDbContext _context;
+
+        #endregion
+
+        #region 构造函数
 
         public CategoriesController(WebApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Categories
-        [HttpGet]
-        public async Task<ApiReponse> GetCategories()
+        #endregion
+
+        #region 接口方法
+
+        [HttpPost]
+        [Tags("分类管理")]
+        public async Task<ApiReponse> CreateAsync(Categories categories)
         {
-            return ApiReponse.Ok(await _context.Categories.ToListAsync());
-        }
-
-        // GET: api/Categories/5
-        [HttpGet("{id}")]
-        public async Task<ApiReponse> GetCategories(int id)
-        {
-            var categories = await _context.Categories.FindAsync(id);
-
-            if (categories == null)
-            {
-                return ApiReponse.NotFound();
-            }
-
-            return ApiReponse.Ok(categories);
-        }
-
-        // PUT: api/Categories/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<ApiReponse> PutCategories(int id, Categories categories)
-        {
-            if (id != categories.CategoryId)
-            {
-                return ApiReponse.Error("分类不存在");
-            }
-
-            _context.Entry(categories).State = EntityState.Modified;
-
             try
             {
+                _context.Categories.Add(categories);
                 await _context.SaveChangesAsync();
+
+                return ApiReponse.Created(categories);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!CategoriesExists(id))
+                return ApiReponse.Error(ex.Message);
+            }
+        }
+
+
+        [HttpDelete("{id}")]
+        [Tags("分类管理")]
+        public async Task<ApiReponse> DeleteAsync(int id)
+        {
+            try
+            {
+                var categories = await _context.Categories.FindAsync(id);
+                if (categories == null)
                 {
                     return ApiReponse.NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+
+                _context.Categories.Remove(categories);
+                await _context.SaveChangesAsync();
+
+                return ApiReponse.Delete();
             }
-
-            return ApiReponse.Modified();
-        }
-
-        // POST: api/Categories
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ApiReponse> PostCategories(Categories categories)
-        {
-            _context.Categories.Add(categories);
-            await _context.SaveChangesAsync();
-
-            return ApiReponse.Created();
-        }
-
-        // DELETE: api/Categories/5
-        [HttpDelete("{id}")]
-        public async Task<ApiReponse> DeleteCategories(int id)
-        {
-            var categories = await _context.Categories.FindAsync(id);
-            if (categories == null)
+            catch (Exception ex)
             {
-                return ApiReponse.NotFound();
+                return ApiReponse.Error(ex.Message);
             }
-
-            _context.Categories.Remove(categories);
-            await _context.SaveChangesAsync();
-
-            return ApiReponse.Modified();
         }
+
+        [HttpGet]
+        [Tags("分类管理")]
+        public async Task<ApiReponse> GetAllAsync()
+        {
+            try
+            {
+                return ApiReponse.Found(await _context.Categories.ToListAsync());
+            }
+            catch (Exception ex)
+            {
+                return ApiReponse.Error(ex.Message);
+            }
+        }
+
+        [HttpGet("{id}")]
+        [Tags("分类管理")]
+        public async Task<ApiReponse> GetExactAsync(int id)
+        {
+            try
+            {
+                var categories = await _context.Categories.FindAsync(id);
+
+                if (categories == null)
+                {
+                    return ApiReponse.NotFound();
+                }
+
+                return ApiReponse.Found(categories);
+            }
+            catch (Exception ex)
+            {
+                return ApiReponse.Error(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Tags("分类管理")]
+        public async Task<ApiReponse> UpdateAsync(Categories categories)
+        {
+            try
+            {
+                _context.Entry(categories).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CategoriesExists(categories.CategoryId))
+                    {
+                        return ApiReponse.NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return ApiReponse.Modified();
+            }
+            catch (Exception ex)
+            {
+                return ApiReponse.Error(ex.Message);
+            }
+        }
+
+
+
+        #endregion
+
+        #region 辅助方法
 
         private bool CategoriesExists(int id)
         {
             return _context.Categories.Any(e => e.CategoryId == id);
         }
+
+        #endregion
     }
 }

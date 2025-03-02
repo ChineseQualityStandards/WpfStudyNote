@@ -52,11 +52,19 @@ namespace WpfStudyNote.WebApplication.Migrations
 
             modelBuilder.Entity("WpfStudyNote.WebApplication.Models.ArticleTags", b =>
                 {
+                    b.Property<int>("ArticleTagId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ArticleTagId"));
+
                     b.Property<int>("ArticleId")
                         .HasColumnType("int");
 
                     b.Property<int>("TagId")
                         .HasColumnType("int");
+
+                    b.HasKey("ArticleTagId");
 
                     b.ToTable("ArticleTags");
                 });
@@ -126,7 +134,7 @@ namespace WpfStudyNote.WebApplication.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("CommentId");

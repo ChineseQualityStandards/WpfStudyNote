@@ -13,12 +13,10 @@ namespace WpfStudyNote.Core.Models
         public const string Api_Url = "https://localhost:7076/";
         #endregion
 
-        #region Account
-        public const string Account_Login = "Accounts/Login";
-        public const string Login_Value = "value";
-        public const string Login_Password = "password";
-
-
+        #region ClassName
+        public const string Tags = "Tags";
+        public const string Accounts = "Accounts";
+        public const string Categories = "Categories";
         #endregion
     }
 }

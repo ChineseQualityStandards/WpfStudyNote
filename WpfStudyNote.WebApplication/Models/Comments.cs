@@ -27,6 +27,6 @@ namespace WpfStudyNote.WebApplication.Models
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime CreateAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

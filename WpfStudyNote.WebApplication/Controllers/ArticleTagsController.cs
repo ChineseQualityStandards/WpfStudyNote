@@ -12,7 +12,7 @@ namespace WpfStudyNote.WebApplication.Controllers
 {
     [Route("[controller]/[action]")]
     [ApiController]
-    public class TagsController : ControllerBase
+    public class ArticleTagsController : ControllerBase
     {
         #region 字段
 
@@ -22,7 +22,7 @@ namespace WpfStudyNote.WebApplication.Controllers
 
         #region 构造函数
 
-        public TagsController(WebApplicationDbContext context)
+        public ArticleTagsController(WebApplicationDbContext context)
         {
             _context = context;
         }
@@ -32,19 +32,17 @@ namespace WpfStudyNote.WebApplication.Controllers
         #region 接口方法
 
         [HttpPost]
-        [Tags("标签管理")]
-        public async Task<ApiReponse> CreateAsync(Tags tags)
+        [Tags("文章标签关联管理")]
+        public async Task<ApiReponse> CreateAsync(ArticleTags articleTags)
         {
             try
             {
-                if (tags.TagName == null)
-                {
-                    throw new NullReferenceException("标签名不能为空");
-                }
-                _context.Tags.Add(tags);
+                if (ArticleTagsExists(articleTags))
+                    throw new Exception("已存在对应关系");
+                _context.ArticleTags.Add(articleTags);
                 await _context.SaveChangesAsync();
 
-                return ApiReponse.Created(tags);
+                return ApiReponse.Created(articleTags);
             }
             catch (Exception ex)
             {
@@ -53,18 +51,18 @@ namespace WpfStudyNote.WebApplication.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Tags("标签管理")]
+        [Tags("文章标签关联管理")]
         public async Task<ApiReponse> DeleteAsync(int id)
         {
             try
             {
-                var tags = await _context.Tags.FindAsync(id);
-                if (tags == null)
+                var articleTags = await _context.ArticleTags.FindAsync(id);
+                if (articleTags == null)
                 {
                     return ApiReponse.NotFound();
                 }
 
-                _context.Tags.Remove(tags);
+                _context.ArticleTags.Remove(articleTags);
                 await _context.SaveChangesAsync();
 
                 return ApiReponse.Delete();
@@ -76,12 +74,12 @@ namespace WpfStudyNote.WebApplication.Controllers
         }
 
         [HttpGet]
-        [Tags("标签管理")]
+        [Tags("文章标签关联管理")]
         public async Task<ApiReponse> GetAllAsync()
         {
             try
             {
-                return ApiReponse.Found(await _context.Tags.ToListAsync());
+                return ApiReponse.Found(await _context.ArticleTags.ToListAsync());
             }
             catch (Exception ex)
             {
@@ -90,19 +88,19 @@ namespace WpfStudyNote.WebApplication.Controllers
         }
 
         [HttpGet("{id}")]
-        [Tags("标签管理")]
+        [Tags("文章标签关联管理")]
         public async Task<ApiReponse> GetExactAsync(int id)
         {
             try
             {
-                var result = await _context.Tags.FindAsync(id);
+                var articleTags = await _context.ArticleTags.FindAsync(id);
 
-                if (result == null)
+                if (articleTags == null)
                 {
                     return ApiReponse.NotFound();
                 }
 
-                return ApiReponse.Found(result);
+                return ApiReponse.Found(articleTags);
             }
             catch (Exception ex)
             {
@@ -111,12 +109,12 @@ namespace WpfStudyNote.WebApplication.Controllers
         }
 
         [HttpPut]
-        [Tags("标签管理")]
-        public async Task<ApiReponse> UpdateAsync(Tags tags)
+        [Tags("文章标签关联管理")]
+        public async Task<ApiReponse> UpdateAsync(ArticleTags articleTags)
         {
             try
             {
-                _context.Entry(tags).State = EntityState.Modified;
+                _context.Entry(articleTags).State = EntityState.Modified;
 
                 try
                 {
@@ -124,7 +122,7 @@ namespace WpfStudyNote.WebApplication.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TagsExists(tags.TagId))
+                    if (!ArticleTagsExists(articleTags.ArticleTagId))
                     {
                         return ApiReponse.NotFound();
                     }
@@ -134,7 +132,7 @@ namespace WpfStudyNote.WebApplication.Controllers
                     }
                 }
 
-                return ApiReponse.Modified(tags);
+                return ApiReponse.Modified(articleTags);
             }
             catch (Exception ex)
             {
@@ -146,11 +144,15 @@ namespace WpfStudyNote.WebApplication.Controllers
 
         #region 辅助方法
 
-        private bool TagsExists(int id)
+        private bool ArticleTagsExists(int id)
         {
-            return _context.Tags.Any(e => e.TagId == id);
+            return _context.ArticleTags.Any(e => e.ArticleTagId == id);
         }
 
+        private bool ArticleTagsExists(ArticleTags articleTags)
+        {
+            return _context.ArticleTags.Any(e => e.ArticleId == articleTags.ArticleId && e.TagId == articleTags.TagId);
+        }
         #endregion
     }
 }
