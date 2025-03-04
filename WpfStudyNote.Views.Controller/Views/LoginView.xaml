@@ -36,13 +36,13 @@
             Height="54"
             Margin="10"
             Padding="7"
-            materialDesign:HintAssist.Hint="请输入账号"
+            materialDesign:HintAssist.Hint="请输入用户账号名"
             Background="White"
             FontFamily="kaiti"
             FontSize="20"
             Opacity="0.7"
             Style="{DynamicResource MaterialDesignOutlinedTextBox}"
-            Text="{Binding UserName}" />
+            Text="{Binding InputField}" />
         <PasswordBox
             x:Name="PasswordBox"
             Grid.Row="2"
@@ -78,7 +78,7 @@
                 Margin="10,0"
                 BorderThickness="0"
                 Command="{Binding DelegateCommand}"
-                CommandParameter="RegisterView"
+                CommandParameter="注册"
                 Content="注册账号"
                 Style="{DynamicResource MaterialDesignOutlinedButton}" />
         </Grid>
@@ -95,6 +95,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Foreground="Red"
-            Text="{Binding Message}" />
+            Text="{Binding Message}"
+            ToolTip="{Binding Message}" />
     </Grid>
 </UserControl>

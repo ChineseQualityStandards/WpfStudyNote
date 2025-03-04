@@ -19,6 +19,8 @@ namespace WpfStudyNote
     /// </summary>
     public partial class App
     {
+
+
         protected override Window CreateShell()
         {
             return Container.Resolve<MainWindow>();
@@ -32,7 +34,7 @@ namespace WpfStudyNote
                 if (callback.Result == ButtonResult.OK)
                 {
                     AppSession.UserSessionMethod(callback.Parameters.GetValue<Accounts>("Accounts"));
-                    MessageBox.Show("登陆成功");
+                    //MessageBox.Show(callback.Parameters.GetValue<string>("Message"));
                     return;
                 }
                 else
@@ -50,7 +52,8 @@ namespace WpfStudyNote
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IFontsService, FontsService>();
-            containerRegistry.RegisterSingleton<ILoginService, LoginService>();
+            containerRegistry.RegisterSingleton<IAccountService<ApiReponse<Accounts>, Accounts>, AccountsService>();
+            containerRegistry.RegisterSingleton<IWebApiService<ApiReponse<Articles>, Articles>, ArticleService>();
             containerRegistry.RegisterSingleton<IRichTextBoxService,RichTextBoxService>();
         }
 
@@ -62,6 +65,7 @@ namespace WpfStudyNote
         {
             moduleCatalog.AddModule<ControllerModule>();
         }
+
     }
 
 }

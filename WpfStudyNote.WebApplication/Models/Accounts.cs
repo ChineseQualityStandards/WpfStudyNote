@@ -33,6 +33,20 @@ namespace WpfStudyNote.WebApplication.Models
         /// </summary>
         [MaxLength(100)]
         public string? PasswordHash { get; set; }
+        /// <summary>
+        /// 用户头像
+        /// </summary>
+        public string? HeadPicture { get; set; }
+
+        /// <summary>
+        /// 用户介绍
+        /// </summary>
+        public string? Introduction { get; set; }
+
+        /// <summary>
+        /// 用户权限
+        /// </summary>
+        public Permission Permission { get; set; }
 
         /// <summary>
         /// 创建时间

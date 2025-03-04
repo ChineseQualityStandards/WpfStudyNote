@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace WpfStudyNote.WebApplication.Models
+namespace WpfStudyNote.Core.Models
 {
     /// <summary>
     /// 文章标签关系表
@@ -11,8 +14,8 @@ namespace WpfStudyNote.WebApplication.Models
         /// <summary>
         /// 主键
         /// </summary>
-        [Key]
         public int ArticleTagId { get; set; }
+
         /// <summary>
         /// 文章ID
         /// </summary>

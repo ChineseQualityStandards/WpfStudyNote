@@ -11,7 +11,7 @@ namespace WpfStudyNote.Interfaces
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="R"></typeparam>
-    public class IApiServer<T,R>
+    public class IApiService<T,R>
     {
         /// <summary>
         /// 创建<typeparamref name="T"/>

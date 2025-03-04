@@ -143,7 +143,8 @@
                     Padding="10"
                     hc:InfoElement.Placeholder="请输入标题(5~100字)"
                     DockPanel.Dock="Top"
-                    FontSize="20" />
+                    FontSize="20"
+                    Text="{Binding Article.Title}" />
                 <!--  通知文字  -->
                 <TextBlock
                     Margin="10,0,5,10"
@@ -151,7 +152,8 @@
                     VerticalAlignment="Bottom"
                     DockPanel.Dock="Bottom"
                     Style="{DynamicResource TextBlockDefaultPrimary}"
-                    Text="{Binding Message}" />
+                    Text="{Binding Message}"
+                    ToolTip="{Binding Message}" />
                 <!--  文章信息  -->
                 <hc:SimpleStackPanel
                     Margin="10,5"
@@ -164,18 +166,24 @@
                         VerticalAlignment="Center"
                         Text="添加封面:"
                         TextAlignment="Center" />
-                    <hc:ImageSelector
+                    <Image
                         Width="216"
                         Height="144"
-                        Margin="10" />
+                        Margin="10"
+                        Source="{Binding ImageSource, Mode=TwoWay, NotifyOnSourceUpdated=True}" />
                     <DockPanel Width="500" LastChildFill="True">
                         <DockPanel DockPanel.Dock="Top" LastChildFill="True">
-                            <Button Content="载入图片" DockPanel.Dock="Right" />
+                            <Button
+                                Command="{Binding DelegateCommand}"
+                                CommandParameter="LoadCoverPicture"
+                                Content="载入图片"
+                                DockPanel.Dock="Right" />
                             <hc:TextBox
                                 Margin="10"
                                 Padding="5"
                                 hc:InfoElement.Placeholder="输入封面图片地址"
-                                DockPanel.Dock="Top" />
+                                DockPanel.Dock="Top"
+                                Text="{Binding CoverPictureLink}" />
                         </DockPanel>
                         <hc:TextBox
                             Margin="10"
@@ -184,12 +192,16 @@
                             VerticalContentAlignment="Top"
                             hc:InfoElement.Placeholder="请用简短的话概括你的文章……"
                             AcceptsReturn="True"
-                            DockPanel.Dock="Top" />
+                            AllowDrop="True"
+                            DockPanel.Dock="Top"
+                            Text="{Binding Article.Introduction}" />
                     </DockPanel>
                     <DockPanel Margin="5" LastChildFill="False">
                         <Button
                             Height="40"
                             Margin="5"
+                            Command="{Binding DelegateCommand}"
+                            CommandParameter="Return"
                             Content="退出编辑"
                             DockPanel.Dock="Top"
                             FontSize="24"
@@ -197,6 +209,8 @@
                         <Button
                             Height="40"
                             Margin="5"
+                            Command="{Binding DelegateCommand}"
+                            CommandParameter="Submit"
                             Content="上传文章"
                             DockPanel.Dock="Top"
                             FontSize="24"

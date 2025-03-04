@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,42 +10,55 @@ using System.Windows.Documents;
 namespace WpfStudyNote.Core.Models
 {
     /// <summary>
-    /// 文章信息
+    /// 文章表
     /// </summary>
-    public class Article
+    public class Articles
     {
         /// <summary>
-        /// 文章编号
+        /// 文章主键
         /// </summary>
-        public int Id { get; set; }
+        [Key]
+        public int ArticleId { get; set; }
+
         /// <summary>
         /// 文章标题
         /// </summary>
+        [MaxLength(255)]
         public string? Title { get; set; }
-        /// <summary>
-        /// 文章描述
-        /// </summary>
-        public string? Description { get; set; }
-        /// <summary>
-        /// 作者
-        /// </summary>
-        public string? Author { get; set; }
-        /// <summary>
-        /// 作者ID
-        /// </summary>
-        public string? AuthorId { get; set; }
-        //public string? AuthorUrl { get; set; }
-        /// <summary>
-        /// 封面图片
-        /// </summary>
-        public string? CoverPicture {  get; set; }
+
         /// <summary>
         /// 文章内容
         /// </summary>
-        public string? Document { get; set; }
+        public string? Content { get; set; }
+
         /// <summary>
-        /// 标签
+        /// 封面图片
         /// </summary>
-        public ObservableCollection<string>? Tags { get; set; }
+        public string? CoverPicture { get; set; }
+
+        /// <summary>
+        /// 文章简介
+        /// </summary>
+        public string? Introduction { get; set; }
+
+        /// <summary>
+        /// 作者ID
+        /// </summary>
+        public int AuthorId { get; set; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime CreatedAt { get; set; }
+
+        /// <summary>
+        /// 更新时间
+        /// </summary>
+        public DateTime UpdatedAt { get; set; }
+
+        /// <summary>
+        /// 分类ID
+        /// </summary>
+        public int CategoryId { get; set; }
     }
 }

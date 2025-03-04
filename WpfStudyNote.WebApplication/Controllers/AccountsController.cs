@@ -44,6 +44,7 @@ namespace WpfStudyNote.WebApplication.Controllers
             {
                 // 确保不显式设置 AccountId
                 account.AccountId = 0;
+                account.Permission = Permission.User;
                 if (string.IsNullOrEmpty(account.AccountName) || string.IsNullOrEmpty(account.Email))
                 {
                     throw new NullReferenceException("用户名和邮箱为必须值");
@@ -166,6 +167,9 @@ namespace WpfStudyNote.WebApplication.Controllers
                 user.AccountName = account.AccountName;
                 user.Email = account.Email;
                 user.PasswordHash = HashSHA256(account.PasswordHash);
+                user.HeadPicture = account.HeadPicture;
+                user.Introduction = account.Introduction;
+                user.Permission = account.Permission;
                 _context.Entry(user).State = EntityState.Modified;
 
                 try
@@ -203,10 +207,20 @@ namespace WpfStudyNote.WebApplication.Controllers
             if (accounts.AccountId != 0)
             {
                 result = await _context.Accounts.FindAsync(accounts.AccountId);
+                if(result == null)
+                {
+                    accounts.AccountId = 0;
+                    return await LoginAsync(accounts);
+                }
             }
             else if (accounts.AccountName != null)
             {
                 result = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountName == accounts.AccountName);
+                if(result == null)
+                {
+                    accounts.AccountName = null;
+                    return await LoginAsync(accounts);
+                }
             }
             else if (accounts.Email != null)
             {
@@ -226,6 +240,7 @@ namespace WpfStudyNote.WebApplication.Controllers
             }
             // 不返回密码哈希，避免泄露
             result.PasswordHash = null;
+            //return ApiReponse.Accepted(result);
             return ApiReponse.Accepted(result);
         }
 
@@ -266,23 +281,7 @@ namespace WpfStudyNote.WebApplication.Controllers
             return _context.Accounts.Any(e => e.Email == email);
         }
 
-        /// <summary>
-        /// 判断是否是邮箱
-        /// </summary>
-        /// <param name="email"></param>
-        /// <returns></returns>
-        private bool IsEmail(string email)
-        {
-            try
-            {
-                var addr = new MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+        
 
         /// <summary>
         /// 字符串转字节数组

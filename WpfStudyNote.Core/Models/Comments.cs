@@ -1,6 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace WpfStudyNote.WebApplication.Models
+namespace WpfStudyNote.Core.Models
 {
     /// <summary>
     /// 评论表
@@ -10,7 +15,6 @@ namespace WpfStudyNote.WebApplication.Models
         /// <summary>
         /// 评论ID
         /// </summary>
-        [Key]
         public int CommentId { get; set; }
 
         /// <summary>

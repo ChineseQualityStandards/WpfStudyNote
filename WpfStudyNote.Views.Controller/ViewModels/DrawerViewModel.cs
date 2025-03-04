@@ -3,8 +3,11 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media.Imaging;
 using WpfStudyNote.Core.Constants;
 using WpfStudyNote.Core.ModelBases;
+using WpfStudyNote.Core.Models;
+using WpfStudyNote.Services;
 
 namespace WpfStudyNote.Views.Controller.ViewModels
 {
@@ -18,6 +21,28 @@ namespace WpfStudyNote.Views.Controller.ViewModels
 
         #region 属性
 
+        private Accounts account;
+
+        public Accounts Account
+        {
+            get { return AppSession.User; }
+            set { SetProperty(ref account, value); }
+        }
+
+        private BitmapImage _imageSource;
+        /// <summary>
+        /// 位图源码
+        /// </summary>
+        public BitmapImage ImageSource
+        {
+            get { return _imageSource; }
+            set { SetProperty(ref _imageSource, value); }
+        }
+
+        #endregion
+
+        #region 命令
+
         public DelegateCommand<string> DelegateCommand { set; get; }
 
         #endregion
@@ -29,6 +54,9 @@ namespace WpfStudyNote.Views.Controller.ViewModels
             _regionManager = regionManager;
 
             DelegateCommand = new DelegateCommand<string>(DelegateMethod);
+
+            ReLoadAppSession();
+
             SetMessage("This is Drawer!");
         }
 
@@ -54,6 +82,13 @@ namespace WpfStudyNote.Views.Controller.ViewModels
                 default:
                     break;
             }
+        }
+
+
+        private void ReLoadAppSession()
+        {
+            if (!string.IsNullOrEmpty(Account.HeadPicture))
+                ImageSource = ImageHelper.Base64ToBitmapImage(Account.HeadPicture);
         }
 
         #endregion

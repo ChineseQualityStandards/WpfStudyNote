@@ -12,8 +12,8 @@ using WpfStudyNote.WebApplication.DbContexts;
 namespace WpfStudyNote.WebApplication.Migrations
 {
     [DbContext(typeof(WebApplicationDbContext))]
-    [Migration("20250303172658_mssql.onprem_migration_248")]
-    partial class mssqlonprem_migration_248
+    [Migration("20250320193751_mssql.onprem_migration_430")]
+    partial class mssqlonprem_migration_430
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,9 +44,18 @@ namespace WpfStudyNote.WebApplication.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("HeadPicture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Introduction")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PasswordHash")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("Permission")
+                        .HasColumnType("int");
 
                     b.HasKey("AccountId");
 
@@ -89,8 +98,14 @@ namespace WpfStudyNote.WebApplication.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CoverPicture")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Introduction")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasMaxLength(255)

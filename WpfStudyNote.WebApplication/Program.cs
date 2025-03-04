@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WpfStudyNote.WebApplication.DbContexts;
 using WpfStudyNote.WebApplication.Controllers;
+using Microsoft.AspNetCore.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -13,27 +13,43 @@ namespace WpfStudyNote.WebApplication.Models
         /// </summary>
         [Key]
         public int ArticleId { get; set; }
+
         /// <summary>
         /// 文章标题
         /// </summary>
         [MaxLength(255)]
         public string? Title { get; set; }
+
         /// <summary>
         /// 文章内容
         /// </summary>
         public string? Content { get; set; }
+
+        /// <summary>
+        /// 封面图片
+        /// </summary>
+        public string? CoverPicture { get; set; }
+
+        /// <summary>
+        /// 文章简介
+        /// </summary>
+        public string? Introduction { get; set; }
+
         /// <summary>
         /// 作者ID
         /// </summary>
         public int AuthorId { get; set; }
+
         /// <summary>
         /// 创建时间
         /// </summary>
         public DateTime CreatedAt { get; set; }
+
         /// <summary>
         /// 更新时间
         /// </summary>
         public DateTime UpdatedAt { get; set; }
+
         /// <summary>
         /// 分类ID
         /// </summary>

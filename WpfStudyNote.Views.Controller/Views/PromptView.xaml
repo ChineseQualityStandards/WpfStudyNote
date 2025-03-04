@@ -1,0 +1,37 @@
+﻿<UserControl
+    x:Class="WpfStudyNote.Views.Controller.Views.PromptView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:local="clr-namespace:WpfStudyNote.Views.Controller.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="150"
+    d:DesignWidth="200"
+    prism:Dialog.WindowStyle="{DynamicResource MaterialDesignWindowStyle}"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="4">
+        <StackPanel>
+            <TextBlock
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="24"
+                Text="{Binding Message}" />
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button
+                    Margin="10"
+                    Command="{Binding DelegateCommand}"
+                    CommandParameter="OK"
+                    Content="确定" />
+                <Button
+                    Margin="10"
+                    Command="{Binding DelegateCommand}"
+                    CommandParameter="Cancel"
+                    Content="取消" />
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</UserControl>

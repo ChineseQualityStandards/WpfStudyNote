@@ -61,6 +61,8 @@ namespace WpfStudyNote.Views.Controller
             containerRegistry.RegisterDialog<LoginView,LoginViewModel>();
             containerRegistry.RegisterForNavigation<MainView, MainViewModel>();
             containerRegistry.RegisterForNavigation<HomeView, HomeViewModel>();
+            containerRegistry.RegisterDialog<PromptView, PromptViewModel>();
+            containerRegistry.RegisterDialog<RegisterView, RegisterViewModel>();
             containerRegistry.RegisterForNavigation<SearchView, SearchViewModel>();
             containerRegistry.RegisterForNavigation<SettingView, SettingViewModel>();
             containerRegistry.RegisterForNavigation<ShowArticleView, ShowArticleViewModel>();
