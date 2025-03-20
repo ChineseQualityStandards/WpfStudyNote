@@ -28,6 +28,7 @@ namespace WpfStudyNote.Views.Controller.ViewModels
 
         private readonly IDialogService _dialogService;
         private readonly IWebApiService<ApiReponse<Articles>, Articles> _articleService;
+        private readonly IWebApiService<ApiReponse<Categories>, Categories> _categoriesService;
         private readonly IRegionManager _regionManager;
         private readonly IFontsService _fontsService;
         private readonly IRichTextBoxService _richTextBoxService;
@@ -76,6 +77,14 @@ namespace WpfStudyNote.Views.Controller.ViewModels
             set { SetProperty(ref data, value); }
         }
 
+        private ObservableCollection<Categories>? categories;
+
+        public ObservableCollection<Categories>? Categories
+        {
+            get { return categories; }
+            set { SetProperty(ref categories, value); }
+        }
+
 
 
 
@@ -109,19 +118,24 @@ namespace WpfStudyNote.Views.Controller.ViewModels
 
         #region 构造函数
 
-        public CreateArticleViewModel(IDialogService dialogService, IWebApiService<ApiReponse<Articles>, Articles> articleService, IRegionManager regionManager, IFontsService fontsService, IRichTextBoxService richTextBoxService) : base(regionManager)
+        public CreateArticleViewModel(IDialogService dialogService, IWebApiService<ApiReponse<Articles>, Articles> articleService, IWebApiService<ApiReponse<Categories>, Categories> categoriesService, IRegionManager regionManager, IFontsService fontsService, IRichTextBoxService richTextBoxService) : base(regionManager)
         {
             _dialogService = dialogService;
             _articleService = articleService;
+            _categoriesService = categoriesService;
             _regionManager = regionManager;
             _fontsService = fontsService;
             _richTextBoxService = richTextBoxService;
 
             Article = new Articles();
 
+            Categories = new ObservableCollection<Categories>();
+
             Data = new FlowDocument();
 
             //GetArticleProperty();
+
+            Load();
 
             DelegateCommand = new DelegateCommand<string>(DelegateMethod);
 
@@ -182,6 +196,7 @@ namespace WpfStudyNote.Views.Controller.ViewModels
                         GetArticleProperty();
                         if (Article != null)
                         {
+                            Article.CategoryId = Article.CategoryId + 1;
                             response = await _articleService.CreateAsync(Article);
                             SetMessage(response.Message);
                             if(response.Code == StatusCode.Created)
@@ -219,7 +234,6 @@ namespace WpfStudyNote.Views.Controller.ViewModels
                     throw new ArgumentNullException("简介不能为空");
                 Article.CreatedAt = DateTime.Now;
                 Article.UpdatedAt = DateTime.Now;
-                Article.CategoryId = 1;
             }
             catch (Exception)
             {
@@ -227,6 +241,23 @@ namespace WpfStudyNote.Views.Controller.ViewModels
             }
         }
 
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            base.OnNavigatedTo(navigationContext);
+            Load();
+        }
+
+        public async void Load()
+        {
+            try
+            {
+                Categories = await _categoriesService.GetAllAsync();
+            }
+            catch (Exception ex)
+            {
+                SetMessage(ex.Message);
+            }
+        }
 
         public void Clear()
         {

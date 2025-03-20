@@ -65,7 +65,7 @@ namespace WpfStudyNote.Core.ModelBases
         /// 处理导航到达时的逻辑
         /// </summary>
         /// <param name="navigationContext">Prism框架中用于表示导航操作的上下文信息的类，包含有关当前导航状态和目标的信息。</param>
-        public void OnNavigatedTo(NavigationContext navigationContext)
+        public virtual void OnNavigatedTo(NavigationContext navigationContext)
         {
 
         }

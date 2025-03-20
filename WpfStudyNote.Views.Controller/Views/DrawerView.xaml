@@ -34,6 +34,8 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         BorderThickness="0"
+                        Command="{Binding DelegateCommand}"
+                        CommandParameter="GoHome"
                         Content="{Binding Account.AccountName}"
                         DockPanel.Dock="Bottom"
                         FontFamily="DFKai-SB"
@@ -49,8 +51,8 @@
                 Margin="10"
                 hc:IconElement.Geometry="{DynamicResource home-001}"
                 Command="{Binding DelegateCommand}"
-                CommandParameter="GoHome"
-                Content="个人空间"
+                CommandParameter="GoSearch"
+                Content="主页"
                 DockPanel.Dock="Top"
                 FontFamily="DFKai-SB"
                 FontSize="22"
@@ -69,19 +71,7 @@
                 FontFamily="DFKai-SB"
                 FontSize="22"
                 Style="{DynamicResource ButtonDefault}" />
-            <!--  测试按钮  -->
-            <Button
-                Width="200"
-                Height="40"
-                Margin="10"
-                hc:IconElement.Geometry="{DynamicResource microsoft-dotnet-001}"
-                Command="{Binding DelegateCommand}"
-                CommandParameter="GoArticle"
-                Content="文章视图"
-                DockPanel.Dock="Top"
-                FontFamily="DFKai-SB"
-                FontSize="22"
-                Style="{DynamicResource ButtonDefault}" />
+
             <!--  设置按钮  -->
             <Button
                 Width="200"

@@ -31,7 +31,7 @@ namespace WpfStudyNote.Interfaces
         /// 获取所有<typeparamref name="E"/>
         /// </summary>
         /// <returns><typeparamref name="R"/></returns>
-        Task<R> GetAllAsync();
+        Task<ObservableCollection<E>> GetAllAsync();
         /// <summary>
         /// 获取指定<paramref name="id"/>的<typeparamref name="E"/>
         /// </summary>

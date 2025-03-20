@@ -36,6 +36,13 @@ namespace WpfStudyNote.Views.Controller.ViewModels
             DelegateCommand = new DelegateCommand<string>(DelegateMethod);
         }
 
+
+
+        #endregion
+
+        #region 方法
+
+
         private void DelegateMethod(string switch_on)
         {
             switch (switch_on)
@@ -49,17 +56,10 @@ namespace WpfStudyNote.Views.Controller.ViewModels
                 case "Exit":
                     Exit();
                     break;
-                case "Search":
-                    _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.SearchView);
-                    break;
                 default:
                     break;
             }
         }
-
-        #endregion
-
-        #region 方法
 
         /// <summary>
         /// 退出程序

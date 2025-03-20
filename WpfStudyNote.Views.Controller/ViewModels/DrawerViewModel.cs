@@ -73,6 +73,9 @@ namespace WpfStudyNote.Views.Controller.ViewModels
                 case "GoHome":
                     _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.HomeView);
                     break;
+                case "GoSearch":
+                    _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.SearchView);
+                    break;
                 case "GoSetting":
                     _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.SettingView);
                     break;

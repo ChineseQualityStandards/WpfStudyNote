@@ -137,14 +137,24 @@
         </ToolBarTray>
         <hc:ScrollViewer Margin="5">
             <DockPanel>
-                <!--  标题栏  -->
-                <hc:TextBox
-                    Margin="10,0"
-                    Padding="10"
-                    hc:InfoElement.Placeholder="请输入标题(5~100字)"
-                    DockPanel.Dock="Top"
-                    FontSize="20"
-                    Text="{Binding Article.Title}" />
+                <DockPanel DockPanel.Dock="Top" LastChildFill="True">
+                    <!--  分类选择  -->
+                    <ComboBox
+                        Width="128"
+                        materialDesign:HintAssist.Hint="文章分类"
+                        DisplayMemberPath="CategoryName"
+                        DockPanel.Dock="Left"
+                        ItemsSource="{Binding Categories}"
+                        SelectedIndex="{Binding Article.CategoryId}"
+                        Style="{StaticResource MaterialDesignOutlinedComboBox}" />
+                    <!--  标题栏  -->
+                    <hc:TextBox
+                        Margin="10,0"
+                        Padding="10"
+                        hc:InfoElement.Placeholder="请输入标题(5~100字)"
+                        FontSize="20"
+                        Text="{Binding Article.Title}" />
+                </DockPanel>
                 <!--  通知文字  -->
                 <TextBlock
                     Margin="10,0,5,10"

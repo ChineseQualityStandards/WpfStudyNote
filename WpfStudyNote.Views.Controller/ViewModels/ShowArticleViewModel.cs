@@ -22,6 +22,15 @@ namespace WpfStudyNote.Views.Controller.ViewModels
 
         #region 属性
 
+        private Articles article;
+        
+        public Articles Article
+        {
+            get { return article; }
+            set { SetProperty(ref article, value); }
+        }
+
+
         private FlowDocument? data;
         /// <summary>
         /// 用于存储NoteBox的数据
@@ -62,8 +71,7 @@ namespace WpfStudyNote.Views.Controller.ViewModels
             Data = new FlowDocument();
 
             DelegateCommand = new DelegateCommand<string>(DelegateMethod);
-
-
+           
 
             SetMessage("This is CreateArticleView!");
         }
@@ -87,6 +95,21 @@ namespace WpfStudyNote.Views.Controller.ViewModels
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
             }
+        }
+
+
+        public void LoadArticle()
+        {
+            if(AppSession.Article != null)
+            {
+                Article = AppSession.Article;
+                _richTextBoxService.LoadStringInUTF8(Article.Content, Data);
+            }
+        }
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            base.OnNavigatedTo(navigationContext);
+            LoadArticle();
         }
 
         #endregion

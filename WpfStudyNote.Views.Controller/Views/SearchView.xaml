@@ -5,14 +5,54 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:WpfStudyNote.Views.Controller.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
+    x:Name="SearchPage"
     d:DesignHeight="450"
     d:DesignWidth="800"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <hc:ScrollViewer x:Name="SearchScrollViewer" IsInertiaEnabled="True">
         <DockPanel LastChildFill="True">
+            <!--  搜索框  -->
+            <materialDesign:ColorZone
+                Margin="15,15,15,0"
+                Padding="5"
+                Panel.ZIndex="1"
+                materialDesign:ElevationAssist.Elevation="Dp2"
+                CornerRadius="2"
+                DockPanel.Dock="Top"
+                Mode="Standard">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox
+                        Grid.Column="0"
+                        Height="40"
+                        MinWidth="200"
+                        Margin="8,0,0,0"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="Build a search bar"
+                        materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                        BorderThickness="0"
+                        FontFamily="DFKai-SB"
+                        FontSize="22" />
+                    <Button
+                        Grid.Column="1"
+                        Width="100"
+                        Height="45"
+                        Margin="5,0"
+                        Command="{Binding DelegateCommand}"
+                        CommandParameter="Search"
+                        Content="查询"
+                        FontFamily="DFKai-SB"
+                        FontSize="22"
+                        Style="{StaticResource ButtonPrimary}" />
+                </Grid>
+            </materialDesign:ColorZone>
             <Expander
                 Margin="15,15,15,0"
                 Background="{DynamicResource RegionBrush}"
@@ -157,99 +197,66 @@
 
                 </StackPanel>
                 <Grid Background="{DynamicResource RegionBrush}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
                     <TextBlock
-                        Margin="15,0"
-                        HorizontalAlignment="Right"
+                        Grid.Column="0"
+                        Margin="15,0,0,0"
                         VerticalAlignment="Center"
                         FontSize="15"
                         FontWeight="ExtraLight"
-                        Text="查询到结果3个" />
+                        Text="查询到结果" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="0"
+                        VerticalAlignment="Center"
+                        FontSize="15"
+                        FontWeight="ExtraLight"
+                        Text="{Binding Count}" />
+                    <TextBlock
+                        Grid.Column="2"
+                        Margin="0,0,15,0"
+                        VerticalAlignment="Center"
+                        FontSize="15"
+                        FontWeight="ExtraLight"
+                        Text="个" />
                 </Grid>
             </DockPanel>
 
-            <hc:Card Margin="15,0" DockPanel.Dock="Top">
-                <DockPanel Height="160" LastChildFill="True">
-                    <Button
-                        Height="60"
-                        HorizontalAlignment="Left"
-                        BorderThickness="0"
-                        Content="5款开源、美观、强大的WPF UI组件库"
-                        DockPanel.Dock="Top"
-                        FontSize="24"
-                        FontWeight="Black"
-                        Style="{DynamicResource ButtonDashed}" />
-                    <RichTextBox DockPanel.Dock="Top" IsReadOnly="True">
-                        <FlowDocument>
-                            <Paragraph>前言</Paragraph>
-                            <Paragraph>经常看到有小伙伴在DotNetGuide技术社区微信交流群里提问：WPF有什么好用或者好看的UI组件库？,今天大姚给大家分享5款开源、美观、强大、简单易用的WPF UI组件库。</Paragraph>
-                            <Paragraph>WPF介绍</Paragraph>
-                        </FlowDocument>
-                    </RichTextBox>
-                </DockPanel>
-            </hc:Card>
+            <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding ArticlesList, Mode=OneWay, NotifyOnSourceUpdated=True}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <hc:Card Margin="15,0" DockPanel.Dock="Top">
+                            <DockPanel Height="160" LastChildFill="True">
+                                <Button
+                                    Height="60"
+                                    HorizontalAlignment="Left"
+                                    BorderThickness="0"
+                                    Command="{Binding ElementName=SearchPage, Path=DataContext.DelegateCommand}"
+                                    CommandParameter="{Binding ArticleId}"
+                                    Content="{Binding Title}"
+                                    DockPanel.Dock="Top"
+                                    FontSize="24"
+                                    FontWeight="Black"
+                                    Style="{DynamicResource ButtonDashed}" />
+                                <TextBox
+                                    DockPanel.Dock="Top"
+                                    IsReadOnly="True"
+                                    Text="{Binding Introduction}" />
+                            </DockPanel>
+                        </hc:Card>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
-            <hc:Card Margin="15,0" DockPanel.Dock="Top">
-                <DockPanel Height="160" LastChildFill="True">
-                    <Button
-                        Height="60"
-                        HorizontalAlignment="Left"
-                        BorderThickness="0"
-                        Content="5款开源、美观、强大的WPF UI组件库"
-                        DockPanel.Dock="Top"
-                        FontSize="24"
-                        FontWeight="Black"
-                        Style="{DynamicResource ButtonDashed}" />
-                    <RichTextBox DockPanel.Dock="Top" IsReadOnly="True">
-                        <FlowDocument>
-                            <Paragraph>前言</Paragraph>
-                            <Paragraph>经常看到有小伙伴在DotNetGuide技术社区微信交流群里提问：WPF有什么好用或者好看的UI组件库？,今天大姚给大家分享5款开源、美观、强大、简单易用的WPF UI组件库。</Paragraph>
-                            <Paragraph>WPF介绍</Paragraph>
-                        </FlowDocument>
-                    </RichTextBox>
-                </DockPanel>
-            </hc:Card>
 
-            <hc:Card Margin="15,0" DockPanel.Dock="Top">
-                <DockPanel Height="160" LastChildFill="True">
-                    <Button
-                        Height="60"
-                        HorizontalAlignment="Left"
-                        BorderThickness="0"
-                        Content="5款开源、美观、强大的WPF UI组件库"
-                        DockPanel.Dock="Top"
-                        FontSize="24"
-                        FontWeight="Black"
-                        Style="{DynamicResource ButtonDashed}" />
-                    <RichTextBox DockPanel.Dock="Top" IsReadOnly="True">
-                        <FlowDocument>
-                            <Paragraph>前言</Paragraph>
-                            <Paragraph>经常看到有小伙伴在DotNetGuide技术社区微信交流群里提问：WPF有什么好用或者好看的UI组件库？,今天大姚给大家分享5款开源、美观、强大、简单易用的WPF UI组件库。</Paragraph>
-                            <Paragraph>WPF介绍</Paragraph>
-                        </FlowDocument>
-                    </RichTextBox>
-                </DockPanel>
-            </hc:Card>
 
-            <hc:Card Margin="15,0" DockPanel.Dock="Top">
-                <DockPanel Height="160" LastChildFill="True">
-                    <Button
-                        Height="60"
-                        HorizontalAlignment="Left"
-                        BorderThickness="0"
-                        Content="5款开源、美观、强大的WPF UI组件库"
-                        DockPanel.Dock="Top"
-                        FontSize="24"
-                        FontWeight="Black"
-                        Style="{DynamicResource ButtonDashed}" />
-                    <RichTextBox DockPanel.Dock="Top" IsReadOnly="True">
-                        <FlowDocument>
-                            <Paragraph>前言</Paragraph>
-                            <Paragraph>经常看到有小伙伴在DotNetGuide技术社区微信交流群里提问：WPF有什么好用或者好看的UI组件库？,今天大姚给大家分享5款开源、美观、强大、简单易用的WPF UI组件库。</Paragraph>
-                            <Paragraph>WPF介绍</Paragraph>
-                        </FlowDocument>
-                    </RichTextBox>
-                </DockPanel>
-            </hc:Card>
+
+
+
 
             <hc:Pagination
                 Margin="15"
@@ -257,9 +264,8 @@
                 VerticalAlignment="Center"
                 DockPanel.Dock="Top"
                 IsJumpEnabled="True"
-                MaxPageCount="10"
-                PageIndex="5" />
-
+                MaxPageCount="{Binding Pages}"
+                PageIndex="{Binding Page}" />
             <hc:GotoTop
                 Grid.Row="2"
                 Margin="15"

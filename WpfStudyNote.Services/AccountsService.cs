@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Linq;
 using System.Text;
@@ -51,7 +52,7 @@ namespace WpfStudyNote.Services
             throw new NotImplementedException();
         }
 
-        public Task<ApiReponse<Accounts>> GetAllAsync()
+        public Task<ObservableCollection<Accounts>> GetAllAsync()
         {
             throw new NotImplementedException();
         }

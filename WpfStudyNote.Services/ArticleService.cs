@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,9 +39,24 @@ namespace WpfStudyNote.Services
             throw new NotImplementedException();
         }
 
-        public Task<ApiReponse<Articles>> GetAllAsync()
+        public async Task<ObservableCollection<Articles>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var request = new RestRequest($"{StaticField.Articles}{StaticField.GetAll}", Method.Get);
+                var response = await _client.ExecuteAsync(request);
+                if (response.IsSuccessful)
+                {
+                    ApiReponse<ObservableCollection<Articles>> apiReponse = JsonConvert.DeserializeObject<ApiReponse<ObservableCollection<Articles>>>(response.Content);
+                    if (apiReponse.Object.Count > 0)
+                        return apiReponse.Object;
+                }
+                throw new ArgumentNullException("差无数据");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Task<ApiReponse<Articles>> GetExactsync(int id)

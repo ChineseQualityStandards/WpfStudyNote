@@ -21,7 +21,8 @@
                 Padding="10"
                 Background="{DynamicResource DefaultBrush}"
                 DockPanel.Dock="Top"
-                FontSize="20" />
+                FontSize="20"
+                Text="{Binding Article.Title}" />
             <DockPanel
                 Margin="10,0"
                 Background="{DynamicResource DefaultBrush}"
@@ -41,7 +42,7 @@
                 <TextBlock
                     Margin="5"
                     DockPanel.Dock="Left"
-                    Text="2025年2月24日 08点50分" />
+                    Text="{Binding Article.CreatedAt}" />
             </DockPanel>
             <!--  标签信息  -->
             <hc:SimplePanel

@@ -61,9 +61,7 @@
                             Style="{DynamicResource ButtonIcon}" />
                     </WrapPanel>
                 </Border>
-
-                <!--  搜索框  -->
-                <hc:SearchBar Command="{Binding DelegateCommand}" CommandParameter="Search" />
+                <Grid />
             </DockPanel>
         </Border>
     </Grid>
