@@ -15,14 +15,45 @@ namespace WpfStudyNote.Services
     {
         private static RestClient _client = new RestClient(new StaticField().Web_Host);
 
-        public Task<ApiReponse<Categories>> CreateAsync(Categories entity)
+        public async Task<ApiReponse<Categories>> CreateAsync(Categories entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var request = new RestRequest($"{StaticField.Categories}{StaticField.Create}", Method.Post);
+                request.AddJsonBody(entity);
+                var response = await _client.ExecuteAsync(request);
+                if (response.IsSuccessful)
+                {
+                    return JsonConvert.DeserializeObject<ApiReponse<Categories>>(response.Content);
+                }
+                throw new Exception("创建失败");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+            //throw new NotImplementedException();
         }
 
-        public Task<ApiReponse<Categories>> DeleteAsync(int id)
+        public async Task<ApiReponse<Categories>> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var request = new RestRequest($"{StaticField.Categories}{StaticField.Delete}{id}",Method.Delete);
+                var response = await _client.DeleteAsync(request);
+                if(response.IsSuccessful)
+                {
+                    return JsonConvert.DeserializeObject<ApiReponse<Categories>>(response.Content);
+                }
+                throw new Exception("删除失败");
+            }
+            catch (Exception ex)
+            {
+                return ApiReponse<Categories>.Reponse(StatusCode.BadRequest, ex.Message, null);
+            }
+            //throw new NotImplementedException();
         }
 
         public async Task<ObservableCollection<Categories>> GetAllAsync()

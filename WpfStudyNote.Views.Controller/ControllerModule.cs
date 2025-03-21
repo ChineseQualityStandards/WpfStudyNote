@@ -66,6 +66,7 @@ namespace WpfStudyNote.Views.Controller
             containerRegistry.RegisterForNavigation<SearchView, SearchViewModel>();
             containerRegistry.RegisterForNavigation<SettingView, SettingViewModel>();
             containerRegistry.RegisterForNavigation<ShowArticleView, ShowArticleViewModel>();
+            containerRegistry.RegisterForNavigation<CategoriesView, CategoriesViewModel>();
             containerRegistry.RegisterForNavigation<TitleView, TitleViewModel>();
             containerRegistry.RegisterForNavigation<TestView, TestViewModel>();
         }

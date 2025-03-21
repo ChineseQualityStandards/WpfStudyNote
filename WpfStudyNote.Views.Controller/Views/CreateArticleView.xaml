@@ -246,14 +246,68 @@
                             VerticalAlignment="Center"
                             Text="文章标签:"
                             TextAlignment="Center" />
-                        <hc:TagContainer MaxWidth="700" Margin="10,5">
-                            <hc:Tag Content="C#" />
-                            <hc:Tag Content="Sql" />
-                        </hc:TagContainer>
-                        <Button
+                        <hc:TagContainer
+                            MaxWidth="700"
                             Margin="10,5"
-                            hc:IconElement.Geometry="{DynamicResource AddGeometry}"
-                            Content="添加标签" />
+                            ItemsSource="{Binding Tags}">
+                            <hc:TagContainer.Template>
+                                <ControlTemplate>
+                                    <hc:Tag Content="{Binding TagName}" />
+                                </ControlTemplate>
+                            </hc:TagContainer.Template>
+                            <!--<hc:Tag Content="C#" />
+                            <hc:Tag Content="Sql" />-->
+                        </hc:TagContainer>
+                        <materialDesign:DialogHost DialogTheme="Inherit" IsOpen="{Binding IsDialogOpen}">
+                            <materialDesign:DialogHost.DialogContent>
+                                <StackPanel Margin="16">
+                                    <TextBlock Text="添加标签" />
+                                    <TextBox
+                                        Margin="0,8,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        Text="{Binding Category.CategoryName}" />
+                                    <ListBox
+                                        MaxWidth="400"
+                                        ItemsSource="{Binding TagsList}"
+                                        Style="{StaticResource MaterialDesignFilterChipListBox}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TagName}" />
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+
+                                        <Button
+                                            Margin="0,8,8,0"
+                                            Command="{Binding DeleteCategoryCommand}"
+                                            CommandParameter="AddCategory"
+                                            Content="确定"
+                                            IsDefault="True"
+                                            Style="{StaticResource MaterialDesignFlatButton}" />
+                                        <Button
+                                            Margin="0,8,8,0"
+                                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                            Content="取消"
+                                            IsCancel="True"
+                                            Style="{StaticResource MaterialDesignFlatButton}">
+                                            <Button.CommandParameter>
+                                                <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib">
+                                                    False
+                                                </system:Boolean>
+                                            </Button.CommandParameter>
+                                        </Button>
+                                    </StackPanel>
+                                </StackPanel>
+                            </materialDesign:DialogHost.DialogContent>
+                            <Button
+                                Margin="10,5"
+                                hc:IconElement.Geometry="{DynamicResource AddGeometry}"
+                                Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                                Content="添加标签" />
+                        </materialDesign:DialogHost>
+
+
                     </hc:SimpleStackPanel>
                 </hc:SimplePanel>
                 <!--  富文本控件  -->

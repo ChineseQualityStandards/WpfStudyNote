@@ -29,6 +29,7 @@ namespace WpfStudyNote.Views.Controller.ViewModels
         private readonly IDialogService _dialogService;
         private readonly IWebApiService<ApiReponse<Articles>, Articles> _articleService;
         private readonly IWebApiService<ApiReponse<Categories>, Categories> _categoriesService;
+        private readonly IWebApiService<ApiReponse<Tags>, Tags> _tagsService;
         private readonly IRegionManager _regionManager;
         private readonly IFontsService _fontsService;
         private readonly IRichTextBoxService _richTextBoxService;
@@ -85,10 +86,6 @@ namespace WpfStudyNote.Views.Controller.ViewModels
             set { SetProperty(ref categories, value); }
         }
 
-
-
-
-
         private FontsProperties? richTextBoxFonts;
         /// <summary>
         /// 存储字体属性
@@ -99,8 +96,21 @@ namespace WpfStudyNote.Views.Controller.ViewModels
             set { SetProperty(ref richTextBoxFonts, value); }
         }
 
-        
+        private ObservableCollection<Tags> tags;
 
+        public ObservableCollection<Tags> Tags
+        {
+            get { return tags; }
+            set { SetProperty(ref tags, value); }
+        }
+
+        private ObservableCollection<Tags> tagsList;
+
+        public ObservableCollection<Tags> TagsList
+        {
+            get { return tagsList; }
+            set { SetProperty(ref tagsList, value); }
+        }
 
         #endregion
 
@@ -118,11 +128,12 @@ namespace WpfStudyNote.Views.Controller.ViewModels
 
         #region 构造函数
 
-        public CreateArticleViewModel(IDialogService dialogService, IWebApiService<ApiReponse<Articles>, Articles> articleService, IWebApiService<ApiReponse<Categories>, Categories> categoriesService, IRegionManager regionManager, IFontsService fontsService, IRichTextBoxService richTextBoxService) : base(regionManager)
+        public CreateArticleViewModel(IDialogService dialogService, IWebApiService<ApiReponse<Articles>, Articles> articleService, IWebApiService<ApiReponse<Categories>, Categories> categoriesService, IWebApiService<ApiReponse<Tags>, Tags> tagsService, IRegionManager regionManager, IFontsService fontsService, IRichTextBoxService richTextBoxService) : base(regionManager)
         {
             _dialogService = dialogService;
             _articleService = articleService;
             _categoriesService = categoriesService;
+            _tagsService = tagsService;
             _regionManager = regionManager;
             _fontsService = fontsService;
             _richTextBoxService = richTextBoxService;
@@ -133,13 +144,15 @@ namespace WpfStudyNote.Views.Controller.ViewModels
 
             Data = new FlowDocument();
 
-            //GetArticleProperty();
+            TagsList = new ObservableCollection<Tags>();
 
             Load();
 
             DelegateCommand = new DelegateCommand<string>(DelegateMethod);
 
             RichTextBoxFonts = _fontsService.GetFontsProperties();
+
+            
 
             //SetMessage("This is CreateArticleView!");
         }
@@ -196,7 +209,7 @@ namespace WpfStudyNote.Views.Controller.ViewModels
                         GetArticleProperty();
                         if (Article != null)
                         {
-                            Article.CategoryId = Article.CategoryId + 1;
+                            //Article.CategoryId = Article.CategoryId + 1;
                             response = await _articleService.CreateAsync(Article);
                             SetMessage(response.Message);
                             if(response.Code == StatusCode.Created)
@@ -252,6 +265,8 @@ namespace WpfStudyNote.Views.Controller.ViewModels
             try
             {
                 Categories = await _categoriesService.GetAllAsync();
+                TagsList = await _tagsService.GetAllAsync();
+                
             }
             catch (Exception ex)
             {
@@ -266,6 +281,7 @@ namespace WpfStudyNote.Views.Controller.ViewModels
             ImageSource = new BitmapImage();
             CoverPictureLink = string.Empty;
             Data = new FlowDocument();
+            TagsList.Clear();
         }
 
         #endregion

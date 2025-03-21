@@ -51,7 +51,7 @@ namespace WpfStudyNote.Services
                     if (apiReponse.Object.Count > 0)
                         return apiReponse.Object;
                 }
-                throw new ArgumentNullException("差无数据");
+                throw new ArgumentNullException("查无数据");
             }
             catch (Exception)
             {

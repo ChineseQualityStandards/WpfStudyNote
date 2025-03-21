@@ -55,6 +55,7 @@ namespace WpfStudyNote
             containerRegistry.RegisterSingleton<IAccountService<ApiReponse<Accounts>, Accounts>, AccountsService>();
             containerRegistry.RegisterSingleton<IWebApiService<ApiReponse<Articles>, Articles>, ArticleService>();
             containerRegistry.RegisterSingleton<IWebApiService<ApiReponse<Categories>, Categories>, CategoriesService>();
+            containerRegistry.RegisterSingleton<IWebApiService<ApiReponse<Tags>, Tags>, TagsService>();
             containerRegistry.RegisterSingleton<IRichTextBoxService,RichTextBoxService>();
         }
 
