@@ -230,87 +230,118 @@ BEGIN
 END
 GO
 
+
+-- 清理数据库
+USE StudyNote;
+
+
+-- 禁用外键约束
+EXEC sp_MSforeachtable @command1="ALTER TABLE ? NOCHECK CONSTRAINT all"
+
+-- 删除所有外键约束
+DECLARE @sql NVARCHAR(MAX) = N'';
+SELECT @sql += 'ALTER TABLE ' + QUOTENAME(OBJECT_SCHEMA_NAME(parent_object_id)) + '.' + QUOTENAME(OBJECT_NAME(parent_object_id)) + ' DROP CONSTRAINT ' + QUOTENAME(name) + ';'
+FROM sys.foreign_keys;
+EXEC sp_executesql @sql;
+
+-- 删除所有表
+EXEC sp_MSforeachtable @command1="DROP TABLE ?"
+
+-- 启用外键约束
+EXEC sp_MSforeachtable @command1="ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all"
+
+GO
+
+
 -- 2️⃣ 切换到目标数据库
 USE StudyNote;
 GO
 
+
 -- 3️⃣ 创建用户表（核心逻辑）
-CREATE TABLE [Users] (
-    [UserId] INT IDENTITY(1,1) PRIMARY KEY,        -- 自增主键
-    [UserName] NVARCHAR(50) NOT NULL 
-        CONSTRAINT CHK_UserName CHECK (LEN(UserName) >= 4),  -- 用户名长度限制
+CREATE TABLE [Accounts] (
+    [AccountId] INT IDENTITY(1,1) PRIMARY KEY,        -- 自增主键
+    [AccountName] NVARCHAR(50) NOT NULL 
+        CONSTRAINT CHK_AccountName CHECK (LEN(AccountName) >= 3),  -- 用户名长度限制
     [Email] NVARCHAR(100) NOT NULL UNIQUE,         -- 唯一邮箱约束
     [PasswordHash] NVARCHAR(255) NOT NULL,         -- 密码哈希存储
+	[HeadPicture] NVARCHAR(MAX),					-- 头像
+	[Introduction] NVARCHAR(MAX),					-- 自我介绍
+	[Permission] INT NOT NULL,						-- 用户权限
     [CreatedAt] DATETIME DEFAULT GETDATE()          -- 自动记录创建时间
 );
-GO
 
 -- 创建文章表（量子安全增强版）
-CREATE TABLE [Posts] (
-    [PostId] INT IDENTITY(1,1) PRIMARY KEY ,  -- 量子安全主键
+CREATE TABLE [Articles] (
+    [ArticleId] INT IDENTITY(1,1) PRIMARY KEY ,  -- 量子安全主键
     
     [Title] NVARCHAR(255) NOT NULL,
     
     [Content] NVARCHAR(MAX),
+
+	[CoverPicture] NVARCHAR(MAX),
+
+	[Introduction] NVARCHAR(MAX),
     
     [AuthorId] INT NOT NULL 
-        FOREIGN KEY REFERENCES [Users](UserId) 
+        FOREIGN KEY REFERENCES [Accounts](AccountId) 
         ON DELETE CASCADE,
     
-    [CreatedAt] DATETIME2(3) 
-        GENERATED ALWAYS AS ROW START 
-        DEFAULT SYSDATETIME(),
+    [CreatedAt] DATETIME DEFAULT GETDATE(),
     
-    [UpdatedAt] DATETIME2(3) 
-        GENERATED ALWAYS AS ROW END 
-        DEFAULT DATEADD(DAY, 1, SYSDATETIME()),
+    [UpdatedAt] DATETIME,
     
     [CategoryId] INT NOT NULL,
-    
-    PERIOD FOR SYSTEM_TIME (CreatedAt, UpdatedAt)
 );
-GO
 
 CREATE TABLE [Comments] (
     -- 量子安全主键
     [CommentId] INT IDENTITY(1,1) PRIMARY KEY,
 
     -- 量子级联外键（自动同步文章删除）
-    [PostId] INT NOT NULL
-        FOREIGN KEY REFERENCES [Posts](PostId)
+    [ArticleId] INT NOT NULL
+        FOREIGN KEY REFERENCES [Articles](ArticleId)
         ON DELETE CASCADE,
 
     -- 用户关联（行级安全）
-    [AuthorId] INT NOT NULL,
+    [AccountId] INT NOT NULL
+	FOREIGN KEY REFERENCES [Accounts](AccountId)
+        ON DELETE NO ACTION,
 
     -- 量子加密评论内容
     [Content] NVARCHAR(MAX),
 
     -- 量子时间戳（纳秒级精度）
-    [CreatedAt] DATETIME2(7) 
-        DEFAULT SYSDATETIME()
+    [CreatedAt] DATETIME DEFAULT GETDATE()
 );
-GO
-
 
 -- 基础版标签表
 CREATE TABLE Tags (
     TagId INT PRIMARY KEY IDENTITY(1,1),  -- 自增主键
-    Name NVARCHAR(50) NOT NULL UNIQUE     -- 唯一标签名
+    TagName NVARCHAR(50) NOT NULL UNIQUE     -- 唯一标签名
 );
 
 -- 文章标签关联表 (多对多关系)
-CREATE TABLE PostTags (
-    PostId INT NOT NULL FOREIGN KEY REFERENCES Posts(PostId),
-    TagId  INT NOT NULL FOREIGN KEY REFERENCES Tags(TagId),
+CREATE TABLE ArticleTags (
+	[ArticleTagId] INT PRIMARY KEY IDENTITY(1,1),  -- 自增主键
+    -- 量子级联外键（自动同步文章删除）
+    [ArticleId] INT NOT NULL
+        FOREIGN KEY REFERENCES [Articles](ArticleId)
+        ON DELETE NO ACTION,
+		-- 量子级联外键（自动同步文章删除）
+    [TagId] INT NOT NULL
+        FOREIGN KEY REFERENCES [Tags](TagId)
+        ON DELETE NO ACTION,
     -- 联合主键防止重复关联
-    PRIMARY KEY (PostId, TagId) 
+    --PRIMARY KEY (ArticleId, TagId) 
 );
 
 -- 分类表 (树形结构预留)
 CREATE TABLE Categories (
     CategoryId INT PRIMARY KEY IDENTITY(1,1),
-    Name NVARCHAR(50) NOT NULL UNIQUE  -- 唯一分类名
+    CategoryName NVARCHAR(50) NOT NULL UNIQUE  -- 唯一分类名
 );
+
+Go
 ```
 
